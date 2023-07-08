@@ -1,0 +1,24 @@
+{
+  "name": "testlab-api",
+  "version": "1.0.0",
+  "description": "API do projeto TestLab, uma ferramente de gestão de casos de testes",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "teste",
+    "qualidade de software",
+    "qa",
+    "plano de testes"
+  ],
+  "author": "Tiago Lopes",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.5.0",
+    "sequelize": "^6.32.1"
+  }
+}
