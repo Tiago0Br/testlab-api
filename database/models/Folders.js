@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const Project = require('./Projects')
 const connection = require('../index')
 
 const Folder = connection.define('folders', {
@@ -10,6 +11,10 @@ const Folder = connection.define('folders', {
     projectId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+            model: Project,
+            key: 'id'
+        },
         comment: 'ID do projeto em que essa pasta foi criada'
     }
 })

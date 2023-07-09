@@ -4,7 +4,7 @@
   "description": "API do projeto TestLab, uma ferramente de gestão de casos de testes",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [
     "teste",
