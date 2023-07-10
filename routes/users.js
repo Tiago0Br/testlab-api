@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const UserModel = require('../database/models/Users')
+const connection = require('../database')
 
-router.route('/').post(async (req, res) => {
+router.post('/', async (req, res) => {
     const { name, email, password } = req.body
     try {
         if (!name || !email || !password) {
@@ -32,6 +33,54 @@ router.route('/').post(async (req, res) => {
                 error
             })
         }
+    }
+})
+
+router.get('/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const user = await UserModel.findOne({
+            where: { id }
+        })
+
+        if (user) {
+            res.status(200).json({
+                user
+            })
+        } else {
+            res.status(404).json({
+                error: 'Usuário não encontrado.'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            error
+        })
+    }
+})
+
+router.get('/:id/projects', async (req, res) => {
+    const { id } = req.params
+    try {
+        const query = `
+            SELECT p.* FROM projects p
+            INNER JOIN usersProjects up
+            ON p.id = up.projectId
+            INNER JOIN users u
+            ON u.id = up.userId
+            WHERE u.id = ${id};
+        `
+
+        const result = await connection.query(query)
+
+        res.status(200).json({
+            result: result[0]
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            error
+        })
     }
 })
 

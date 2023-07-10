@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const TesteCaseModel = require('../database/models/TestCases')
 
-router.route('/').post(async (req, res) => {
+router.post('/', async (req, res) => {
     const { title, summary, preconditions, testSuiteId } = req.body
     try {
         if (!title || !summary || !testSuiteId) {

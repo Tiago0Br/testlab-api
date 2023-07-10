@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const FolderModel = require('../database/models/Folders')
 
-router.route('/').post(async (req, res) => {
+router.post('/', async (req, res) => {
     const { name, projectId } = req.body
     try {
         if (!name || !projectId) {

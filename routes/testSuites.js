@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const TestSuiteModel = require('../database/models/TestSuites')
 
-router.route('/').post(async (req, res) => {
+router.post('/', async (req, res) => {
     const { title, folderId } = req.body
     try {
         if (!title || !folderId) {
