@@ -19,6 +19,4 @@ const Folder = connection.define('folders', {
     }
 })
 
-Folder.sync({ force: false }).then(() => {})
-
 module.exports = Folder

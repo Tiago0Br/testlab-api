@@ -29,6 +29,4 @@ const TestCase = connection.define('testCases', {
     },
 })
 
-TestCase.sync({ force: false }).then(() => {})
-
 module.exports = TestCase

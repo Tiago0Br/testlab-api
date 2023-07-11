@@ -19,6 +19,4 @@ const TestSuite = connection.define('testSuites', {
     }
 })
 
-TestSuite.sync({ force: false }).then(() => {})
-
 module.exports = TestSuite

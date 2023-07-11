@@ -34,6 +34,4 @@ const TestCaseStatusHistory = connection.define('testCaseStatusHistory', {
     }
 }, { updatedAt: false })
 
-TestCaseStatusHistory.sync({ force: false }).then(() => {})
-
 module.exports = TestCaseStatusHistory

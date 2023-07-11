@@ -24,6 +24,4 @@ const UserProject = connection.define('usersProjects', {
     }
 }, { timestamps: false })
 
-UserProject.sync({ force: false }).then(() => {})
-
 module.exports = UserProject

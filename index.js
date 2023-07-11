@@ -2,10 +2,10 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const connection = require('./database')
+const connection = require('./database/connection')
 const router = require('./routes/router')
 
-connection.authenticate().then(() => {
+connection().then(() => {
     console.log('Conexão com o banco de dados efetuada com sucesso!')
 }).catch(err => {
     console.log('Erro ao tentar conectar no banco', err)
