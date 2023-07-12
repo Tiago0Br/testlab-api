@@ -1,5 +1,6 @@
 const UserModel = require('../database/models/Users')
 const connection = require('../database')
+const bcrypt = require('bcrypt')
 
 const userController = {
     create: async (req, res) => {
@@ -10,10 +11,12 @@ const userController = {
                     error: 'Os campos "name", "email" e "password" são obrigatórios.'
                 })
             } else {
+                const salt = await bcrypt.genSalt(12)
+                const passwordHash = await bcrypt.hash(password, salt)
                 const user = await UserModel.create({
                     name,
                     email,
-                    password
+                    password: passwordHash
                 })
     
                 res.status(201).json({
