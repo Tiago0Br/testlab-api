@@ -1,0 +1,343 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TestLab API",
+        "description": "API da aplicação TestLab para gerenciamento de casos de testes de software.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://198.199.122.204",
+            "description": "production"
+        },
+        {
+            "url": "http://localhost:8080",
+            "description": "test"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "summary": "Login",
+                "description": "Faz o login do usuário no sistema",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "required": true
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "login válido": {
+                                    "value": {
+                                        "email": "testes@gmail",
+                                        "password": "senha123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "login com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Login efetuado com sucesso",
+                                        "user": {
+                                            "id": 9,
+                                            "name": "Tiago Lopes 3",
+                                            "email": "testes@gmail"
+                                        },
+                                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Senha incorreta"
+                    },
+                    "404": {
+                        "description": "e-mail não encontrado"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "summary": "Cadastro de usuários",
+                "description": "Cadastra usuários no sistema",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "required": true
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "usuário": {
+                                    "value": {
+                                        "name": "Victor Piloto",
+                                        "email": "vp123@gmail.com",
+                                        "password": "senha123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "cadastro efetuado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "user": {
+                                            "id": 11,
+                                            "name": "Victor Piloto",
+                                            "email": "vp123@gmail.com",
+                                            "password": "$2b$12$oNde8IUA",
+                                            "updatedAt": "2023-07-12T23:57:54.957Z",
+                                            "createdAt": "2023-07-12T23:57:54.957Z"
+                                        },
+                                        "message": "Usuário criado com sucesso."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Campos com conteúdo inválido ou em branco"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "summary": "Busca usuário",
+                "description": "Faz a busca de um usuário pelo ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "usuário encontrado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "user": {
+                                            "id": 8,
+                                            "name": "Victor Piloto",
+                                            "email": "vp123@gmail.com",
+                                            "password": "e7d80ffeefa212b7c5c5e",
+                                            "createdAt": "2023-07-09T17:30:34.000Z",
+                                            "updatedAt": "2023-07-09T17:30:34.000Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                }
+            }
+        },
+        "/users/{id}/projects": {
+            "get": {
+                "summary": "Busca projetos",
+                "description": "Lista todos os projetos de um usuário buscando pelo ID do usuário.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "projetos listados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "projects": [
+                                            {
+                                                "id": 2,
+                                                "name": "Cidadão",
+                                                "description": null,
+                                                "ownerUserId": 4,
+                                                "createdAt": "2023-07-09T17:57:36.000Z",
+                                                "updatedAt": "2023-07-09T17:57:36.000Z"
+                                            },
+                                            {
+                                                "id": 12,
+                                                "name": "Saúde",
+                                                "description": "Projeto de testes do sistema Saúde Digital",
+                                                "ownerUserId": 8,
+                                                "createdAt": "2023-07-10T00:52:59.000Z",
+                                                "updatedAt": "2023-07-10T00:52:59.000Z"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "post": {
+                "summary": "Cadastro de projetos",
+                "description": "Cadastra projetos de testes no sistema",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "required": false
+                                    },
+                                    "ownerUserId": {
+                                        "type": "integer",
+                                        "ownerUserId": true
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "usuário": {
+                                    "value": {
+                                        "name": "Educação V3",
+                                        "description": "Testes do projeto de Educação",
+                                        "ownerUserId": 8
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "cadastro efetuado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "project": {
+                                            "id": 12,
+                                            "name": "Educação V3",
+                                            "description": "Testes do projeto de Educação",
+                                            "ownerUserId": 8,
+                                            "updatedAt": "2023-07-10T00:52:59.925Z",
+                                            "createdAt": "2023-07-10T00:52:59.925Z"
+                                        },
+                                        "message": "Projeto criado com sucesso."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dados inválidos"
+                    }
+                }
+            }
+        },
+        "/projects/{id}/users": {
+            "get": {
+                "summary": "Busca usuários de um projeto",
+                "description": "Lista todos os usuários que participam do projeto, buscando pelo ID do projeto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do projeto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "usuários listados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "users": [
+                                            {
+                                                "id": 8,
+                                                "name": "Victor Piloto",
+                                                "email": "vp123@gmail.com",
+                                                "password": "e7d80fffa2120e4f7193e",
+                                                "createdAt": "2023-07-09T17:30:34.000Z",
+                                                "updatedAt": "2023-07-09T17:30:34.000Z"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Projeto não encontrado"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -2,9 +2,9 @@
   "name": "testlab-api",
   "version": "1.0.0",
   "description": "API do projeto TestLab, uma ferramente de gestão de casos de testes",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "keywords": [
     "teste",
@@ -22,6 +22,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.1",
     "mysql2": "^3.5.0",
-    "sequelize": "^6.32.1"
+    "sequelize": "^6.32.1",
+    "swagger-ui-express": "^5.0.0"
   }
 }
