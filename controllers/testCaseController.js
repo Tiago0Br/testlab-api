@@ -49,6 +49,82 @@ const testCaseController = {
         }
     },
 
+    update: async (req, res) => {
+        const { id } = req.params
+        const { title, summary, preconditions, testSuiteId } = req.body
+        try {
+            if (!title || !summary || !testSuiteId) {
+                res.status(400).json({
+                    error: 'Os campos "title", "summary" e "testSuiteId" são obrigatórios.'
+                })
+            }
+
+            await TestCaseModel.update({
+                title,
+                summary,
+                preconditions,
+                testSuiteId
+            }, {
+                where: { id }
+            })
+
+            const testCase = await TestCaseModel.findOne({
+                where: { id }
+            })
+
+            if (!testCase) {
+                return res.status(404).json({
+                    error: 'Caso de teste não encontrado.'
+                })
+            }
+
+            res.status(200).json({
+                testCase
+            })
+        } catch (error) {
+            if (error.name === 'SequelizeForeignKeyConstraintError') {
+                res.status(400).json({
+                    error: `Não foi encontrada uma suíte de testes com o ID ${testSuiteId}`
+                })
+            } else {
+                res.status(500).json({
+                    error
+                })
+            }
+        }
+    },
+
+    delete: async (req, res) => {
+        const { id } = req.params
+        try {
+            const testCase = await TestCaseModel.findOne({
+                where: { id }
+            })
+
+            if (!testCase) {
+                return res.status(404).json({
+                    error: 'Caso de teste não encontrado.'
+                })
+            }
+
+            await testCase.destroy()
+
+            res.status(200).json({
+                message: 'Caso de teste excluído.'
+            })
+        } catch (error) {
+            if (error.name === 'SequelizeForeignKeyConstraintError') {
+                res.status(400).json({
+                    error: 'O caso de teste possui histórico e não pode ser excluído'
+                })
+            } else {
+                res.status(500).json({
+                    error
+                })
+            }
+        }
+    },
+
     getStatus: async (_, res) => {
         res.status(200).json({
             status: availableStatus

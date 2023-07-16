@@ -110,6 +110,74 @@ const projectController = {
         }
     },
 
+    update: async (req, res) => {
+        const { id } = req.params
+        const { name, description } = req.body
+        try {
+            if (!name) {
+                return res.status(400).json({
+                    error: 'O campos "name" é obrigatório.'
+                })
+            }
+
+            await ProjectModel.update({
+                name,
+                description
+            }, {
+                where: { id }
+            })
+
+            const project = await ProjectModel.findOne({
+                where: { id }
+            })
+
+            if (!project) {
+                return res.status(404).json({
+                    error: 'Projeto não encontrado.'
+                })
+            }
+
+            res.status(200).json({
+                project
+            })
+        } catch (error) {
+            res.status(500).json({
+                error
+            })
+        }
+    },
+
+    delete: async (req, res) => {
+        const { id } = req.params
+        try {
+            const project = await ProjectModel.findOne({
+                where: { id }
+            })
+
+            if (!project) {
+                return res.status(404).json({
+                    error: 'Projeto não encontrado.'
+                })
+            }
+
+            await project.destroy()
+
+            res.status(200).json({
+                message: 'Projeto excluído.'
+            })
+        } catch (error) {
+            if (error.name === 'SequelizeForeignKeyConstraintError') {
+                res.status(400).json({
+                    error: 'O projeto possui conteúdo e não pode ser excluído'
+                })
+            } else {
+                res.status(500).json({
+                    error
+                })
+            }
+        }
+    },
+
     getProjectUsers: async (req, res) => {
         const { id } = req.params
         try {
