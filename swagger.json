@@ -295,6 +295,147 @@
                 }
             }
         },
+        "/projects/{id}": {
+            "get": {
+                "summary": "Busca um projeto",
+                "description": "Realiza a busca de um projeto pelo ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do projeto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "required": false
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "projeto": {
+                                    "value": {
+                                        "name": "Projeto editado",
+                                        "description": null
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "projeto editado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "project": {
+                                            "id": 2,
+                                            "name": "Projeto editado 2",
+                                            "description": null,
+                                            "ownerUserId": 4,
+                                            "createdAt": "2023-07-09T17:57:36.000Z",
+                                            "updatedAt": "2023-07-15T23:46:44.000Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Projeto não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Edita um projeto",
+                "description": "Realiza a edição de um projeto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do projeto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "projeto encontrado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "project": {
+                                            "id": 2,
+                                            "name": "Educação V3",
+                                            "description": null,
+                                            "ownerUserId": 4,
+                                            "createdAt": "2023-07-09T17:57:36.000Z",
+                                            "updatedAt": "2023-07-15T23:46:44.000Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Projeto não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Exclui um projeto",
+                "description": "Realiza a exclusão de um projeto pelo ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do projeto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "projeto excluído com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Projeto excluído."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Projeto não encontrado"
+                    }
+                }
+            }
+        },
         "/projects/{id}/users": {
             "get": {
                 "summary": "Busca usuários de um projeto",
