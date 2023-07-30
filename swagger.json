@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://198.199.122.204",
+            "url": "https://testslabapi.studio",
             "description": "production"
         },
         {
