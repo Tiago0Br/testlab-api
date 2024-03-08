@@ -13,4 +13,4 @@ router.use('/folders', foldersRouter)
 router.use('/testSuites', testSuitesRouter)
 router.use('/testCases', testCasesRouter)
 
-module.exports = router
+export default router

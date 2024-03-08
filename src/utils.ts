@@ -1,6 +1,7 @@
-const jwt = require('jsonwebtoken')
+import { NextFunction, Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 
-function checkToken(req, res, next) {
+function checkToken(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
 
@@ -11,7 +12,7 @@ function checkToken(req, res, next) {
     }
 
     try {
-        const { SECRET } = process.env
+        const SECRET = process.env.SECRET!
         jwt.verify(token, SECRET)
 
         next()
@@ -22,6 +23,6 @@ function checkToken(req, res, next) {
     }
 }
 
-module.exports = {
+export {
     checkToken
 }
