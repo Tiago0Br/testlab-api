@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from 'express'
+import { RequestHandler } from 'express'
 import jwt from 'jsonwebtoken'
 
-function checkToken(req: Request, res: Response, next: NextFunction) {
+export const checkToken: RequestHandler = (req, res, next) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
 
@@ -21,8 +21,4 @@ function checkToken(req: Request, res: Response, next: NextFunction) {
             error: 'Token inválido'
         })
     }
-}
-
-export {
-    checkToken
 }

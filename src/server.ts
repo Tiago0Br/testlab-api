@@ -4,12 +4,18 @@ import cors from 'cors'
 import http from 'node:http'
 import https from 'node:https'
 import fs from 'node:fs'
+import folderRoutes from './routes/folders'
+import userRoutes from './routes/users'
+import loginRoutes from './routes/login'
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use('/', loginRoutes)
+app.use('/users', userRoutes)
+app.use('/folders', folderRoutes)
 
 const runServer = (port: number, server: http.Server) => {
     server.listen(port, () => {
