@@ -50,17 +50,55 @@ export const getByEmail = async (email: string) => {
     }
 }
 
-export const getUserProjects = async (id: number) => {
+export const getByProjectId = async (projectId: number) => {
     try {
-        return await prisma.user.findFirst({
-            where: { id },
+        return await prisma.user.findMany({
+            where: { 
+                projects: { 
+                    every: { id: projectId } 
+                } 
+            },
             select: {
                 id: true,
                 fullname: true,
-                email: true,
-                projects: true
+                email: true
             }
         })
+    } catch (error) {
+        return false
+    }
+}
+
+export const getUserProjects = async (id: number) => {
+    try {
+        const user = await prisma.user.findFirst({
+            where: { id },
+            select: {
+                projects: {
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        Folder: {
+                            select: {
+                                id: true,
+                                title: true,
+                                TestCase: {
+                                    select: {
+                                        id: true,
+                                        title: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        if (!user) return null
+
+        return user?.projects
     } catch (error) {
         return false
     }

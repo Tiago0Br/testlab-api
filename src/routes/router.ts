@@ -7,7 +7,7 @@ import testCasesRouter from './testCases'
 
 const router = Router()
 
-router.use('/login', loginRouter)
+router.use('/', loginRouter)
 router.use('/users', usersRouter)
 router.use('/projects', projectsRouter)
 router.use('/folders', foldersRouter)

@@ -58,10 +58,10 @@ export const getUserProjects: RequestHandler = async (req, res) => {
         return res.status(400).json({ error: 'O "id" deve ser enviado e do tipo numérico' })
     }
 
-    const userFound = await user.getUserProjects(params.data.id)
-    if (!userFound) return res.status(404).json({ error: 'Usuário não encontrado' })
+    const userProjects = await user.getUserProjects(params.data.id)
+    if (!userProjects) return res.status(404).json({ error: 'Usuário não encontrado' })
 
     res.status(200).json({
-        data: userFound
+        data: userProjects
     })
 }
