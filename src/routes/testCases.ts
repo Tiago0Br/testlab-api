@@ -1,14 +1,14 @@
 import { Router } from 'express'
-// import testCaseController from '../controllers/testCaseController'
-// import { checkToken } from '../utils'
+import * as testCases from '../controllers/testCases'
+import { checkToken } from '../utils'
 
 const router = Router()
 
-// router.post('/', checkToken, testCaseController.create)
-// router.put('/:id', checkToken, testCaseController.update)
-// router.delete('/:id', checkToken, testCaseController.delete)
-// router.get('/status', testCaseController.getStatus)
-// router.post('/:id/status', checkToken, testCaseController.changeStatus)
-// router.get('/:id/history', checkToken, testCaseController.getStatusHistory)
+router.post('/', checkToken, testCases.create)
+router.get('/:id', checkToken, testCases.getById)
+router.put('/:id', checkToken, testCases.update)
+router.delete('/:id', checkToken, testCases.remove)
+router.get('/:id/status', testCases.getStatus)
+router.post('/:id/status', checkToken, testCases.changeStatus)
 
 export default router

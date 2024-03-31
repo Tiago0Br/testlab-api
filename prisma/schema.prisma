@@ -82,7 +82,7 @@ model TestCaseStatus {
   id         Int      @id @default(autoincrement())
   testCaseId Int
   status     String   @db.VarChar(30)
-  note       String   @db.MediumText
+  note       String?  @db.MediumText
   date       DateTime @default(now())
 
   testCase TestCase @relation(fields: [testCaseId], references: [id])
