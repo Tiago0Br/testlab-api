@@ -1,17 +1,12 @@
 import { RequestHandler } from 'express'
-import { z } from 'zod'
 import * as folder from '../services/folders'
+import * as folderSchema from '../schemas/folders'
+import { showZodErrors } from '../utils'
 
 export const create: RequestHandler = async (req, res) => {
-    const folderSchema = z.object({
-        title: z.string(),
-        projectId: z.number(),
-        folderId: z.number().optional()
-    })
-
-    const body = folderSchema.safeParse(req.body)
+    const body = folderSchema.create.safeParse(req.body)
     if (!body.success) {
-        return res.status(400).json({ error: 'Dados inválidos' })
+        return res.status(400).json({ error: showZodErrors(body.error) })
     }
 
     const createdFolder = await folder.create(body.data)
@@ -23,20 +18,15 @@ export const create: RequestHandler = async (req, res) => {
 }
 
 export const update: RequestHandler = async (req, res) => {
-    const folderParamsSchema = z.object({
-        id: z.number()
-    })
+    const params = folderSchema.get.safeParse({ id: parseInt(req.params.id) })
+    const body = folderSchema.update.safeParse(req.body)
 
-    const folderSchema = z.object({
-        title: z.string().optional(),
-        projectId: z.number().optional(),
-        folderId: z.number().optional()
-    })
+    if (!params.success) {
+        return res.status(400).json({ error: showZodErrors(params.error) })
+    }
 
-    const params = folderParamsSchema.safeParse(req.params)
-    const body = folderSchema.safeParse(req.body)
-    if (!params.success || !body.success) {
-        return res.status(400).json({ error: 'Dados inválidos' })
+    if (!body.success) {
+        return res.status(400).json({ error: showZodErrors(body.error) })
     }
 
     const updatedFolder = await folder.update(params.data.id, body.data)
@@ -48,13 +38,9 @@ export const update: RequestHandler = async (req, res) => {
 }
 
 export const remove: RequestHandler = async (req, res) => {
-    const folderParamsSchema = z.object({
-        id: z.number()
-    })
-
-    const params = folderParamsSchema.safeParse(req.params)
+    const params = folderSchema.get.safeParse(req.params)
     if (!params.success) {
-        return res.status(400).json({ error: 'Dados inválidos' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const updatedFolder = await folder.remove(params.data.id)

@@ -1,19 +1,12 @@
 import { RequestHandler } from 'express'
 import * as testCases from '../services/testCases'
-import { z } from 'zod'
-import { TestCaseStatus } from '../utils'
+import * as testCasesSchema from '../schemas/testCases'
+import { TestCaseStatus, showZodErrors } from '../utils'
 
 export const create: RequestHandler = async (req, res) => {
-    const testCaseSchema = z.object({
-        title: z.string(),
-        summary: z.string(),
-        preconditions: z.string().optional(),
-        testSuiteId: z.number()
-    })
+    const body = testCasesSchema.create.safeParse(req.body)
 
-    const body = testCaseSchema.safeParse(req.body)
-
-    if (!body.success) return res.status(400).json({ error: 'Dados inválidos' })
+    if (!body.success) return res.status(400).json({ error: showZodErrors(body.error) })
 
     const createdTestCase = await testCases.create(req.body)
 
@@ -29,13 +22,12 @@ export const create: RequestHandler = async (req, res) => {
 }
 
 export const getById: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
+    const params = testCasesSchema.get.safeParse({ 
+        id: parseInt(req.params.id) 
     })
 
-    const params = paramsSchema.safeParse({ id: parseInt(req.params.id) })
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const testCase = await testCases.getById(params.data.id)
@@ -49,24 +41,16 @@ export const getById: RequestHandler = async (req, res) => {
 }
 
 export const update: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
+    const params = testCasesSchema.get.safeParse({ 
+        id: parseInt(req.params.id) 
     })
 
-    const testCaseSchema = z.object({
-        title: z.string().optional(),
-        summary: z.string().optional(),
-        preconditions: z.string().optional(),
-        testSuiteId: z.number().optional()
-    })
-
-    const params = paramsSchema.safeParse({ id: parseInt(req.params.id) })
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
-    const body = testCaseSchema.safeParse(req.body)
-    if (!body.success) return res.status(400).json({ error: 'Dados inválidos' })
+    const body = testCasesSchema.update.safeParse(req.body)
+    if (!body.success) return res.status(400).json({ error: showZodErrors(body.error) })
 
     const updatedTestCase = await testCases.update(params.data.id, body.data)
 
@@ -80,13 +64,12 @@ export const update: RequestHandler = async (req, res) => {
 }
 
 export const remove: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
+    const params = testCasesSchema.get.safeParse({ 
+        id: parseInt(req.params.id) 
     })
 
-    const params = paramsSchema.safeParse({ id: parseInt(req.params.id) })
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const deletedTestCase = await testCases.remove(params.data.id)
@@ -98,13 +81,12 @@ export const remove: RequestHandler = async (req, res) => {
 }
 
 export const getStatus: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
+    const params = testCasesSchema.get.safeParse({ 
+        id: parseInt(req.params.id) 
     })
 
-    const params = paramsSchema.safeParse({ id: parseInt(req.params.id) })
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const testCaseStatus = await testCases.getStatus(params.data.id)
@@ -116,13 +98,9 @@ export const getStatus: RequestHandler = async (req, res) => {
 }
 
 export const changeStatus: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
-    })
-
-    const params = paramsSchema.safeParse({ id: parseInt(req.params.id) })
+    const params = testCasesSchema.get.safeParse({ id: parseInt(req.params.id) })
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const testCaseStatus = await testCases.getStatus(params.data.id)

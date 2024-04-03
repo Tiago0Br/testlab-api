@@ -1,16 +1,11 @@
 import { RequestHandler } from 'express'
-import { z } from 'zod'
 import * as user from '../services/users'
+import * as userSchema from '../schemas/users'
 import bcrypt from 'bcrypt'
+import { showZodErrors } from '../utils'
 
 export const create: RequestHandler = async (req, res) => {
-    const userSchema = z.object({
-        fullname: z.string(),
-        email: z.string(),
-        password: z.string()
-    })
-
-    const body = userSchema.safeParse(req.body)
+    const body = userSchema.create.safeParse(req.body)
     if (!body.success) {
         return res.status(400).json({ error: 'Dados inválidos' })
     }
@@ -31,13 +26,12 @@ export const create: RequestHandler = async (req, res) => {
 }
 
 export const getById: RequestHandler = async (req, res) => {
-    const UserParamsSchema = z.object({
-        id: z.number()
+    const params = userSchema.get.safeParse({ 
+        id: parseInt(req.params.id) 
     })
 
-    const params = UserParamsSchema.safeParse({ id: parseInt(req.params.id) })
     if (!params.success) {
-        return res.status(400).json({ error: 'O "id" deve ser enviado e do tipo numérico' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const userFound = await user.getById(params.data.id)
@@ -49,13 +43,12 @@ export const getById: RequestHandler = async (req, res) => {
 }
 
 export const getUserProjects: RequestHandler = async (req, res) => {
-    const UserParamsSchema = z.object({
-        id: z.number()
+    const params = userSchema.get.safeParse({ 
+        id: parseInt(req.params.id) 
     })
 
-    const params = UserParamsSchema.safeParse({ id: parseInt(req.params.id) })
     if (!params.success) {
-        return res.status(400).json({ error: 'O "id" deve ser enviado e do tipo numérico' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const userProjects = await user.getUserProjects(params.data.id)

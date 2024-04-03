@@ -1,19 +1,15 @@
 import { RequestHandler } from 'express'
-import { z } from 'zod'
 import { getByEmail as getUserByEmail } from '../services/users'
+import * as loginSchema from '../schemas/login'
 import bcrypt from 'bcrypt'
 import JWT from 'jsonwebtoken'
 import 'dotenv/config'
+import { showZodErrors } from '../utils'
 
 export const authenticate: RequestHandler = async (req, res) => {
-    const loginSchema = z.object({
-        email: z.string(),
-        password: z.string()
-    })
-
-    const body = loginSchema.safeParse(req.body)
+    const body = loginSchema.authenticate.safeParse(req.body)
     if (!body.success) {
-        return res.status(400).json({ error: 'Os campos "email" e "password" são obrigatórios.' })
+        return res.status(400).json({ error: showZodErrors(body.error) })
     }
 
     const user = await getUserByEmail(body.data.email)

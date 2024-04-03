@@ -1,18 +1,13 @@
 import { RequestHandler } from 'express'
 import * as project from '../services/projects'
-import { z } from 'zod'
 import { getByProjectId as getUserByProject } from '../services/users'
+import * as projectSchema from '../schemas/projects'
+import { showZodErrors } from '../utils'
 
 export const create: RequestHandler = async (req, res) => {
-    const projectSchema = z.object({
-        name: z.string(),
-        description: z.string(),
-        ownerUserId: z.number()
-    })
-
-    const body = projectSchema.safeParse(req.body)
+    const body = projectSchema.create.safeParse(req.body)
     if (!body.success) {
-        return res.status(400).json({ error: 'Dados inválidos' })
+        return res.status(400).json({ error: showZodErrors(body.error) })
     }
 
     const createdProject = await project.create(body.data)
@@ -26,16 +21,12 @@ export const create: RequestHandler = async (req, res) => {
 }
 
 export const getById: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
-    })
-
-    const params = paramsSchema.safeParse({
+    const params = projectSchema.get.safeParse({
         id: parseInt(req.params.id) 
     })
 
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo numérico' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const projectFound = await project.getById(params.data.id)
@@ -50,28 +41,18 @@ export const getById: RequestHandler = async (req, res) => {
 }
 
 export const update: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
-    })
-
-    const projectSchema = z.object({
-        name: z.string().optional(),
-        description: z.string().optional(),
-        ownerUserId: z.number().optional()
-    })
-
-    const params = paramsSchema.safeParse({
+    const params = projectSchema.get.safeParse({
         id: parseInt(req.params.id) 
     })
 
-    const body = projectSchema.safeParse(req.body)
+    const body = projectSchema.update.safeParse(req.body)
 
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     if (!body.success) {
-        return res.status(400).json({ error: 'Dados inválidos' })
+        return res.status(400).json({ error: showZodErrors(body.error) })
     }
 
     const updatedProject = await project.update(params.data.id, body.data);
@@ -85,16 +66,12 @@ export const update: RequestHandler = async (req, res) => {
 }
 
 export const remove: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
-    })
-
-    const params = paramsSchema.safeParse({
+    const params = projectSchema.get.safeParse({
         id: parseInt(req.params.id) 
     })
 
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const deletedProject = await project.remove(params.data.id)
@@ -106,26 +83,18 @@ export const remove: RequestHandler = async (req, res) => {
 }
 
 export const addUserToProject: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
-    })
-
-    const params = paramsSchema.safeParse({
+    const params = projectSchema.get.safeParse({
         id: parseInt(req.params.id) 
     })
 
-    const addUserSchema = z.object({
-        email: z.string()
-    })
-
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
-    const body = addUserSchema.safeParse(req.body)
+    const body = projectSchema.addUser.safeParse(req.body)
 
     if (!body.success) {
-        return res.status(400).json({ error: 'Dados inválidos' })
+        return res.status(400).json({ error: showZodErrors(body.error) })
     }
 
     const addedUser = await project.addUserToProject(params.data.id, body.data.email)
@@ -137,16 +106,12 @@ export const addUserToProject: RequestHandler = async (req, res) => {
 }
 
 export const getProjectUsers: RequestHandler = async (req, res) => {
-    const paramsSchema = z.object({
-        id: z.number()
-    })
-
-    const params = paramsSchema.safeParse({
+    const params = projectSchema.get.safeParse({
         id: parseInt(req.params.id) 
     })
 
     if (!params.success) {
-        return res.status(400).json({ error: 'O id deve ser enviado e do tipo inteiro' })
+        return res.status(400).json({ error: showZodErrors(params.error) })
     }
 
     const users = await getUserByProject(params.data.id)
