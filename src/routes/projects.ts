@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import * as project from '../controllers/projects'
-import { checkToken } from '../utils'
+import { checkToken } from '../middlewares'
 
 const router = Router()
 

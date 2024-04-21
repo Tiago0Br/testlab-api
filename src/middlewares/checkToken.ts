@@ -1,13 +1,12 @@
 import { RequestHandler } from 'express'
 import jwt from 'jsonwebtoken'
-import { ZodError } from 'zod'
 
 export const checkToken: RequestHandler = (req, res, next) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
 
     if (!token) {
-        return res.status(401).json({
+        return res.status(401).send({
             error: 'Acesso negado'
         })
     }
@@ -22,19 +21,4 @@ export const checkToken: RequestHandler = (req, res, next) => {
             error: 'Token inválido'
         })
     }
-}
-
-export const showZodErrors = (error: ZodError) => {
-    const errors = error.errors.map(error => error.message)
-    return errors[0]
-}
-
-export enum TestCaseStatus {
-    NAO_EXECUTADO = 'Não executado',
-    EM_EXECUCAO = 'Em execução',
-    PASSOU = 'Passou',
-    COM_FALHA = 'Com falha',
-    BLOQUEADO = 'Bloqueado',
-    CANCELADO = 'Cancelado',
-    LIBERADO = 'Liberado'
 }
