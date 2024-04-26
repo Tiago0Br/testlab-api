@@ -1,0 +1,17 @@
+{
+    "name": "troupe/testlab-api",
+    "description": "API do projeto Testlab, um software para gestão de casos de testes",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Troupe\\TestlabApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tiago Lopes",
+            "email": "tiagoltavares2002@gmail.com"
+        }
+    ],
+    "require": {}
+}
