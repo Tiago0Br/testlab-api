@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\StatusCode;
+use Troupe\TestlabApi\Core\Application\Middlewares\ErrorHandler;
 
 /** @var string[] $modules */
 $modules = require __DIR__ . '/../modules.php';
@@ -21,6 +22,8 @@ $app->get('/', function (Request $request, Response $response) {
         ->withHeader('Content-Type', 'application/json')
         ->withBody($body);
 });
+
+$app->add(new ErrorHandler());
 
 foreach ($modules as $module) {
     require_once sprintf(__DIR__ . '/../../modules/%s/routes/routes.php', $module);

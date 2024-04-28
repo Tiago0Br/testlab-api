@@ -12,7 +12,7 @@ return [
         'database' => [
             'adapter' => 'mysql',
             'host' => getenv('DB_HOST'),
-            'name' => 'orange-portfolio',
+            'name' => getenv('DB_NAME'),
             'user' => getenv('DB_USER'),
             'pass' => getenv('DB_PASS'),
             'port' => getenv('DB_PORT'),
