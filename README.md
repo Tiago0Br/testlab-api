@@ -12,9 +12,9 @@ Projeto de software de gestão de casos de testes, monitoramento de bugs e contr
 
 </a>
 
-<a href="https://www.php.net/" title="Slim Framework" target="_blank">
+<a href="https://www.slimframework.com/" title="Slim Framework" target="_blank">
 
-<img src="https://www.slimframework.com/assets/images/favicon.png" style="border-radius: 50%" height="40px" width="40px"  alt="Slim logo"/>
+<img src="https://pbs.twimg.com/media/CQolRlrVAAAnrpC?format=png&name=360x360" height="50px" width="50px"  alt="Slim logo"/>
 
 </a>
 
