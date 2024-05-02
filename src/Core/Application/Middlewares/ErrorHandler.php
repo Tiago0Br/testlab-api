@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Throwable;
+use Troupe\TestlabApi\Core\Domain\Exception\NotFoundException;
 
 class ErrorHandler
 {
@@ -21,6 +22,13 @@ class ErrorHandler
                 ->withStatus(400)
                 ->withJson([
                     'type'       => 'InvalidParameter',
+                    'message'    => $e->getMessage(),
+                ]);
+        } catch (NotFoundException $e) {
+            $response = $response
+                ->withStatus(404)
+                ->withJson([
+                    'type'       => 'NotFound',
                     'message'    => $e->getMessage(),
                 ]);
         } catch (DomainException $e) {

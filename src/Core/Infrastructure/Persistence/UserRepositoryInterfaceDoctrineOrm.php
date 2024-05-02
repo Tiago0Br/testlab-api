@@ -6,6 +6,7 @@ namespace Troupe\TestlabApi\Core\Infrastructure\Persistence;
 
 use Doctrine\ORM\EntityManager;
 use Troupe\TestlabApi\Core\Domain\Entity\User;
+use Troupe\TestlabApi\Core\Domain\Exception\UserNotFound;
 use Troupe\TestlabApi\Core\Domain\Repository\UserRepositoryInterface;
 
 class UserRepositoryInterfaceDoctrineOrm implements UserRepositoryInterface
@@ -30,5 +31,16 @@ class UserRepositoryInterfaceDoctrineOrm implements UserRepositoryInterface
             ->setParameter('EMAIL', $email);
 
         return (array) $qb->getQuery()->getResult();
+    }
+
+    public function getById(int $id): User
+    {
+        $user = $this->entityManager->find(User::class, $id);
+
+        if ($user instanceof User) {
+            return $user;
+        }
+
+        throw UserNotFound::fromId($id);
     }
 }

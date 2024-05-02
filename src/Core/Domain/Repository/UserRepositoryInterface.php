@@ -8,6 +8,8 @@ use Troupe\TestlabApi\Core\Domain\Entity\User;
 
 interface UserRepositoryInterface
 {
+    public function getById(int $id): User;
+
     public function getByEmail(string $email) : array;
 
     public function store(User $user): void;
