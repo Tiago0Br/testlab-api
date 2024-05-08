@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\Core\Domain\Dto;
 
-use Assert\Assert;
+use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
 
 class GetUserByIdDto
 {
@@ -23,8 +23,9 @@ class GetUserByIdDto
 
     private static function validate(array $params): void
     {
-        Assert::that($params['id'])
-            ->notNull("O campo 'id' é obrigatório")
-            ->integerish("O campo 'id' deve ser um número");
+        Validator::validateInteger(
+            params: $params,
+            fields: ['id']
+        );
     }
 }

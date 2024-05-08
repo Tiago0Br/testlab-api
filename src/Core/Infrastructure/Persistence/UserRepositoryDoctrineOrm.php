@@ -9,7 +9,7 @@ use Troupe\TestlabApi\Core\Domain\Entity\User;
 use Troupe\TestlabApi\Core\Domain\Exception\UserNotFound;
 use Troupe\TestlabApi\Core\Domain\Repository\UserRepositoryInterface;
 
-class UserRepositoryInterfaceDoctrineOrm implements UserRepositoryInterface
+class UserRepositoryDoctrineOrm implements UserRepositoryInterface
 {
     public function __construct(private readonly EntityManager $entityManager)
     {

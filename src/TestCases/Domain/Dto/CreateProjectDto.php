@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Troupe\TestlabApi\Core\Domain\Dto;
+namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
 use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
 
-class CreateUserDto
+class CreateProjectDto
 {
     private function __construct(
         public readonly string $name,
-        public readonly string $email,
-        public readonly string $password
+        public readonly string $description,
+        public readonly int $ownerUserId
     ) {
     }
 
@@ -21,8 +21,8 @@ class CreateUserDto
 
         return new self(
             name: $params['name'],
-            email: $params['email'],
-            password: $params['password']
+            description: $params['description'],
+            ownerUserId: (int) $params['owner_user_id']
         );
     }
 
@@ -30,7 +30,12 @@ class CreateUserDto
     {
         Validator::validateString(
             params: $params,
-            fields: ['name', 'email', 'password']
+            fields: ['name', 'description']
+        );
+
+        Validator::validateInteger(
+            params: $params,
+            fields: ['owner_user_id']
         );
     }
 }
