@@ -8,7 +8,7 @@ Projeto de software de gestão de casos de testes, monitoramento de bugs e contr
 
 <a href="https://www.php.net/" title="PHP" target="_blank">
 
-<img src="https://www.zettaomnis.net.br/portal/images/zost/ourproducts/php/php.png" height="40px" width="60px"  alt="PHP logo"/>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Webysther_20160423_-_Elephpant.svg/2560px-Webysther_20160423_-_Elephpant.svg.png" height="40px" width="60px"  alt="PHP logo"/>
 
 </a>
 
