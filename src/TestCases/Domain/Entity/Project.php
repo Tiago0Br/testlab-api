@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Troupe\TestlabApi\Core\Domain\Entity\User;
 use Troupe\TestlabApi\TestCases\Domain\Dto\CreateProjectDto;
+use Troupe\TestlabApi\TestCases\Domain\Dto\UpdateProjectDto;
 
 #[ORM\Table(name: 'projects')]
 #[ORM\Entity]
@@ -46,5 +47,11 @@ class Project
         $instance->ownerUser = $user;
 
         return $instance;
+    }
+
+    public function update(UpdateProjectDto $updateProjectDto): void
+    {
+        $this->name = $updateProjectDto->name;
+        $this->description = $updateProjectDto->description;
     }
 }

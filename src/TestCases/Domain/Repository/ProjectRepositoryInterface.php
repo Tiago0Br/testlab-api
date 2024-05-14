@@ -9,4 +9,8 @@ use Troupe\TestlabApi\TestCases\Domain\Entity\Project;
 interface ProjectRepositoryInterface
 {
     public function store(Project $project): void;
+
+    public function getById(int $projectId): Project;
+
+    public function remove(Project $project): void;
 }
