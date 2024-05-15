@@ -16,6 +16,10 @@ class Validator
                     ->notNull("O campo '$key' é obrigatório");
             }
 
+            if (!$required && !isset($params[$key])) {
+                return;
+            }
+
             Assert::that($params[$key])
                 ->integerish("O campo '$key' deve ser um número");
         }, $fields);
@@ -27,6 +31,10 @@ class Validator
             if ($required) {
                 Assert::that($params[$key])
                     ->notNull("O campo '$key' é obrigatório");
+            }
+
+            if (!$required && !isset($params[$key])) {
+                return;
             }
 
             Assert::that($params[$key])
