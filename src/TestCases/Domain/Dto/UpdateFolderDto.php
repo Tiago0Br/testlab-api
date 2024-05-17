@@ -6,9 +6,10 @@ namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
 use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
 
-class CreateFolderDto
+class UpdateFolderDto
 {
     private function __construct(
+        public readonly int $id,
         public readonly string $title,
         public readonly int $projectId,
         public readonly ?int $isTestSuit,
@@ -21,6 +22,7 @@ class CreateFolderDto
         self::validate($params);
 
         return new self(
+            id: (int) $params['id'],
             title: $params['title'],
             projectId: (int) $params['project_id'],
             isTestSuit: $params['is_test_suite'] ? (int) $params['is_test_suite'] : null,
@@ -37,7 +39,7 @@ class CreateFolderDto
 
         Validator::validateInteger(
             params: $params,
-            fields: ['project_id']
+            fields: ['id', 'project_id']
         );
 
         Validator::validateInteger(

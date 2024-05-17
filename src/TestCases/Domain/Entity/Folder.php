@@ -7,6 +7,7 @@ namespace Troupe\TestlabApi\TestCases\Domain\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Troupe\TestlabApi\TestCases\Domain\Dto\CreateFolderDto;
+use Troupe\TestlabApi\TestCases\Domain\Dto\UpdateFolderDto;
 
 #[ORM\Table(name: 'folders')]
 #[ORM\Entity]
@@ -54,5 +55,16 @@ class Folder
         $instance->folder = $folder;
 
         return $instance;
+    }
+
+    public function update(
+        UpdateFolderDto $updateFolderDto,
+        Project $project,
+        Folder $folder = null
+    ): void {
+        $this->title = $updateFolderDto->title;
+        $this->project = $project;
+        $this->isTestSuite = $updateFolderDto->isTestSuit ?? 0;
+        $this->folder = $folder;
     }
 }

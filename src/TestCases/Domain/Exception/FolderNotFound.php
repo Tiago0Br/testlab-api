@@ -10,6 +10,6 @@ class FolderNotFound extends NotFoundException
 {
     public static function fromId(int $id): self
     {
-        return new self(sprintf("Não foi encontrada a pasta com o ID %d", $id));
+        return new self(sprintf("Não foi encontrada a pasta com o ID '%d' nesse projeto", $id));
     }
 }
