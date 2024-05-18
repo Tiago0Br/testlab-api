@@ -14,4 +14,8 @@ interface FolderRepositoryInterface
     public function getById(int $id): Folder;
 
     public function getByIdAndProject(int $id, Project $project): Folder;
+
+    public function getSubfoldersByFolderId(int $id): array;
+
+    public function remove(Folder $folder): void;
 }

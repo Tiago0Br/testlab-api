@@ -6,6 +6,7 @@ use Troupe\TestlabApi\TestCases\Domain\Repository\FolderRepositoryInterface;
 use Troupe\TestlabApi\TestCases\Domain\Repository\ProjectRepositoryInterface;
 use Troupe\TestlabApi\TestCases\Domain\Service\CreateFolder;
 use Troupe\TestlabApi\TestCases\Domain\Service\CreateProject;
+use Troupe\TestlabApi\TestCases\Domain\Service\DeleteFolder;
 use Troupe\TestlabApi\TestCases\Domain\Service\DeleteProject;
 use Troupe\TestlabApi\TestCases\Domain\Service\UpdateFolder;
 use Troupe\TestlabApi\TestCases\Domain\Service\UpdateProject;
@@ -37,6 +38,12 @@ $container[CreateFolder::class] = static fn (ContainerInterface $container) =>
 
 $container[UpdateFolder::class] = static fn (ContainerInterface $container) =>
     new UpdateFolder(
+        $container->get(FolderRepositoryInterface::class),
+        $container->get(ProjectRepositoryInterface::class)
+    );
+
+$container[DeleteFolder::class] = static fn (ContainerInterface $container) =>
+    new DeleteFolder(
         $container->get(FolderRepositoryInterface::class),
         $container->get(ProjectRepositoryInterface::class)
     );

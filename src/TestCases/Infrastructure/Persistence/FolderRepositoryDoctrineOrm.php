@@ -46,4 +46,25 @@ class FolderRepositoryDoctrineOrm implements FolderRepositoryInterface
 
         throw FolderNotFound::fromId($id);
     }
+
+    public function remove(Folder $folder): void
+    {
+        $this->entityManager->remove($folder);
+        $this->entityManager->flush();
+    }
+
+    public function getSubfoldersByFolderId(int $id): array
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        $query = $queryBuilder
+            ->select('folder')
+            ->from(Folder::class, 'folder')
+            ->innerJoin('folder.folder', 'parentFolder')
+            ->where('parentFolder.id = :ID')
+            ->setParameter('ID', $id)
+            ->getQuery();
+
+        return (array) $query->getResult();
+    }
 }

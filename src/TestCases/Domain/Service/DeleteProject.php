@@ -15,9 +15,9 @@ class DeleteProject
     public function remove(int $projectId): array
     {
         $project = $this->projectRepository->getById($projectId);
-        $removeProject = $project->jsonSerialize();
+        $removedProject = $project->jsonSerialize();
 
         $this->projectRepository->remove($project);
-        return $removeProject;
+        return $removedProject;
     }
 }
