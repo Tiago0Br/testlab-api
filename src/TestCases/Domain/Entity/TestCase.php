@@ -6,6 +6,7 @@ namespace Troupe\TestlabApi\TestCases\Domain\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Troupe\TestlabApi\TestCases\Domain\Dto\CreateTestCaseDto;
 
 #[ORM\Table(name: 'test_cases')]
 #[ORM\Entity]
@@ -23,10 +24,10 @@ class TestCase
     private string $summary;
 
     #[ORM\Column(name: 'preconditions', type: Types::STRING)]
-    private string $preconditions;
+    private ?string $preconditions = null;
 
     #[ORM\OneToOne(targetEntity: Folder::class)]
-    #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'test_suite_id', referencedColumnName: 'id')]
     private Folder $testSuite;
 
     public function jsonSerialize(): array
@@ -38,5 +39,18 @@ class TestCase
             'preconditions' => $this->preconditions,
             'test_suite' => $this->testSuite->jsonSerialize(),
         ];
+    }
+
+    public static function create(
+        CreateTestCaseDto $createTestCaseDto,
+        Folder $testSuite
+    ): self {
+        $instance = new self();
+        $instance->title = $createTestCaseDto->title;
+        $instance->summary = $createTestCaseDto->summary;
+        $instance->preconditions = $createTestCaseDto->preconditions;
+        $instance->testSuite = $testSuite;
+
+        return $instance;
     }
 }
