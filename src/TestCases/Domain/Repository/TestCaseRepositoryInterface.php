@@ -9,4 +9,8 @@ use Troupe\TestlabApi\TestCases\Domain\Entity\TestCase;
 interface TestCaseRepositoryInterface
 {
     public function store(TestCase $testCase): void;
+
+    public function getById(int $id): TestCase;
+
+    public function remove(TestCase $testCase): void;
 }

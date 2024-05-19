@@ -10,8 +10,10 @@ use Troupe\TestlabApi\TestCases\Domain\Service\CreateProject;
 use Troupe\TestlabApi\TestCases\Domain\Service\CreateTestCase;
 use Troupe\TestlabApi\TestCases\Domain\Service\DeleteFolder;
 use Troupe\TestlabApi\TestCases\Domain\Service\DeleteProject;
+use Troupe\TestlabApi\TestCases\Domain\Service\DeleteTestCase;
 use Troupe\TestlabApi\TestCases\Domain\Service\UpdateFolder;
 use Troupe\TestlabApi\TestCases\Domain\Service\UpdateProject;
+use Troupe\TestlabApi\TestCases\Domain\Service\UpdateTestCase;
 use Troupe\TestlabApi\TestCases\Infrastructure\Persistence\FolderRepositoryDoctrineOrm;
 use Troupe\TestlabApi\TestCases\Infrastructure\Persistence\ProjectRepositoryDoctrineOrm;
 use Troupe\TestlabApi\TestCases\Infrastructure\Persistence\TestCaseRepositoryDoctrineOrm;
@@ -55,6 +57,16 @@ $container[CreateTestCase::class] = static fn (ContainerInterface $container) =>
     new CreateTestCase(
         $container->get(TestCaseRepositoryInterface::class),
         $container->get(FolderRepositoryInterface::class)
+    );
+
+$container[UpdateTestCase::class] = static fn (ContainerInterface $container) =>
+    new UpdateTestCase(
+        $container->get(TestCaseRepositoryInterface::class),
+    );
+
+$container[DeleteTestCase::class] = static fn (ContainerInterface $container) =>
+    new DeleteTestCase(
+        $container->get(TestCaseRepositoryInterface::class)
     );
 
 // Repositories

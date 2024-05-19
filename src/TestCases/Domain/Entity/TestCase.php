@@ -7,6 +7,7 @@ namespace Troupe\TestlabApi\TestCases\Domain\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Troupe\TestlabApi\TestCases\Domain\Dto\CreateTestCaseDto;
+use Troupe\TestlabApi\TestCases\Domain\Dto\UpdateTestCaseDto;
 
 #[ORM\Table(name: 'test_cases')]
 #[ORM\Entity]
@@ -30,6 +31,11 @@ class TestCase
     #[ORM\JoinColumn(name: 'test_suite_id', referencedColumnName: 'id')]
     private Folder $testSuite;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -52,5 +58,12 @@ class TestCase
         $instance->testSuite = $testSuite;
 
         return $instance;
+    }
+
+    public function update(UpdateTestCaseDto $updateTestCaseDto): void
+    {
+        $this->title = $updateTestCaseDto->title;
+        $this->summary = $updateTestCaseDto->summary;
+        $this->preconditions = $updateTestCaseDto->preconditions;
     }
 }

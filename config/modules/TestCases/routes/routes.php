@@ -8,9 +8,12 @@ use Troupe\TestlabApi\TestCases\Application\Rest\CreateProjectAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\CreateTestCaseAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteProjectAction;
+use Troupe\TestlabApi\TestCases\Application\Rest\DeleteTestCaseAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectAction;
+use Troupe\TestlabApi\TestCases\Application\Rest\GetTestCaseAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateProjectAction;
+use Troupe\TestlabApi\TestCases\Application\Rest\UpdateTestCaseAction;
 
 /** @var App $app */
 $container = $app->getContainer();
@@ -28,6 +31,9 @@ $app->group('/projects', function (App $app) use ($container) {
 
         $app->group('/{test_suite_id}/test_cases', function (App $app) use ($container) {
             $app->post('', new CreateTestCaseAction($container));
+            $app->get('/{id}', new GetTestCaseAction($container));
+            $app->put('/{id}', new UpdateTestCaseAction($container));
+            $app->delete('/{id}', new DeleteTestCaseAction($container));
         });
     });
 });

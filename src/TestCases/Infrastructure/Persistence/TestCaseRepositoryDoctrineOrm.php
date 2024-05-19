@@ -6,6 +6,7 @@ namespace Troupe\TestlabApi\TestCases\Infrastructure\Persistence;
 
 use Doctrine\ORM\EntityManager;
 use Troupe\TestlabApi\TestCases\Domain\Entity\TestCase;
+use Troupe\TestlabApi\TestCases\Domain\Exception\TestCaseNotFound;
 use Troupe\TestlabApi\TestCases\Domain\Repository\TestCaseRepositoryInterface;
 
 class TestCaseRepositoryDoctrineOrm implements TestCaseRepositoryInterface
@@ -17,6 +18,22 @@ class TestCaseRepositoryDoctrineOrm implements TestCaseRepositoryInterface
     public function store(TestCase $testCase): void
     {
         $this->entityManager->persist($testCase);
+        $this->entityManager->flush();
+    }
+
+    public function getById(int $id): TestCase
+    {
+        $testCase = $this->entityManager->find(TestCase::class, $id);
+        if ($testCase instanceof TestCase) {
+            return $testCase;
+        }
+
+        throw TestCaseNotFound::fromId($id);
+    }
+
+    public function remove(TestCase $testCase): void
+    {
+        $this->entityManager->remove($testCase);
         $this->entityManager->flush();
     }
 }
