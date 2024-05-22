@@ -13,6 +13,7 @@ class TestCasePresenter
             'title' => $testCase['title'],
             'summary' => $testCase['summary'],
             'preconditions' => $testCase['preconditions'],
+            'status' => $testCase['status'],
             'test_suite' => [
                 'id' => $testCase['test_suite']['id'],
                 'title' => $testCase['test_suite']['title'],

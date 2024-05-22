@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\TestCases\Domain\Entity;
 
-use DateTimeImmutable;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,7 +17,7 @@ class TestCaseStatus
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private int $id;
 
-    #[ORM\OneToOne(targetEntity: TestCase::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: TestCase::class, cascade: ['persist'], inversedBy: 'status')]
     #[ORM\JoinColumn(name: 'test_case_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private TestCase $testCase;
 
@@ -25,19 +25,30 @@ class TestCaseStatus
     private string $status;
 
     #[ORM\Column(name: 'note', type: Types::STRING)]
-    private string $note;
+    private ?string $note = null;
 
     #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE)]
-    private DateTimeImmutable $createdAt;
+    private DateTime $createdAt;
 
     public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
-            'test_case' => $this->testCase->jsonSerialize(),
             'status' => $this->status,
             'note' => $this->note,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
         ];
+    }
+
+    public static function create(TestCase $testCase, string $status, ?string $note = null): self
+    {
+        $instance = new self();
+
+        $instance->status = $status;
+        $instance->note = $note;
+        $instance->testCase = $testCase;
+        $instance->createdAt = new DateTime();
+
+        return $instance;
     }
 }

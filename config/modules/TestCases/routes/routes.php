@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Slim\App;
+use Troupe\TestlabApi\TestCases\Application\Rest\ChangeTestCaseStatusAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\CreateFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\CreateProjectAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\CreateTestCaseAction;
@@ -34,6 +35,8 @@ $app->group('/projects', function (App $app) use ($container) {
             $app->get('/{id}', new GetTestCaseAction($container));
             $app->put('/{id}', new UpdateTestCaseAction($container));
             $app->delete('/{id}', new DeleteTestCaseAction($container));
+
+            $app->patch('/{id}/status', new ChangeTestCaseStatusAction($container));
         });
     });
 });

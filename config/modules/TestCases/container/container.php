@@ -5,6 +5,7 @@ use Troupe\TestlabApi\Core\Domain\Repository\UserRepositoryInterface;
 use Troupe\TestlabApi\TestCases\Domain\Repository\FolderRepositoryInterface;
 use Troupe\TestlabApi\TestCases\Domain\Repository\ProjectRepositoryInterface;
 use Troupe\TestlabApi\TestCases\Domain\Repository\TestCaseRepositoryInterface;
+use Troupe\TestlabApi\TestCases\Domain\Service\ChangeTestCaseStatus;
 use Troupe\TestlabApi\TestCases\Domain\Service\CreateFolder;
 use Troupe\TestlabApi\TestCases\Domain\Service\CreateProject;
 use Troupe\TestlabApi\TestCases\Domain\Service\CreateTestCase;
@@ -66,6 +67,11 @@ $container[UpdateTestCase::class] = static fn (ContainerInterface $container) =>
 
 $container[DeleteTestCase::class] = static fn (ContainerInterface $container) =>
     new DeleteTestCase(
+        $container->get(TestCaseRepositoryInterface::class)
+    );
+
+$container[ChangeTestCaseStatus::class] = static fn (ContainerInterface $container) =>
+    new ChangeTestCaseStatus(
         $container->get(TestCaseRepositoryInterface::class)
     );
 
