@@ -41,7 +41,11 @@ class LoginAction
         $token = $auth->generateToken($user);
 
         $body = $response->getBody();
-        $body->write((string) json_encode(['token' => $token], JSON_THROW_ON_ERROR));
+        $responseBody = array_merge(
+            ['user' => $user->jsonSerialize()],
+            ['token' => $token]
+        );
+        $body->write((string) json_encode($responseBody, JSON_THROW_ON_ERROR));
 
         return $response
             ->withStatus(StatusCode::HTTP_CREATED)

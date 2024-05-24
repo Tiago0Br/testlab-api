@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Slim\App;
+use Troupe\TestlabApi\Core\Application\Middlewares\CheckToken;
 use Troupe\TestlabApi\Core\Application\Rest\CreateUserAction;
 use Troupe\TestlabApi\Core\Application\Rest\GetUserByIdAction;
 use Troupe\TestlabApi\Core\Application\Rest\LoginAction;
@@ -12,7 +13,8 @@ $container = $app->getContainer();
 
 $app->group('/users', function (App $app) use ($container) {
     $app->post('', new CreateUserAction($container));
-    $app->get('/{id}', new GetUserByIdAction($container));
+    $app->get('/{id}', new GetUserByIdAction($container))
+        ->add(new CheckToken($container));
 });
 
 $app->post('/login', new LoginAction($container));

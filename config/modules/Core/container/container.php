@@ -16,8 +16,7 @@ $container[Authentication::class] = static fn (ContainerInterface $container) =>
         Configuration::forSymmetricSigner(
             new Sha256(),
             InMemory::plainText(getenv('AUTH_TOKEN_SIGNER_KEY'))
-        ),
-        (int) getenv('AUTH_TOKEN_EXPIRATION_TIME_SECONDS')
+        )
     );
 
 // Services

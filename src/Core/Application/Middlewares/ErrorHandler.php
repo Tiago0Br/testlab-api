@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Throwable;
 use Troupe\TestlabApi\Core\Domain\Exception\NotFoundException;
+use Troupe\TestlabApi\Core\Domain\Exception\UnauthorizedException;
 
 class ErrorHandler
 {
@@ -17,6 +18,13 @@ class ErrorHandler
     {
         try {
             $response = $next($request, $response);
+        } catch (UnauthorizedException $e) {
+            $response = $response
+                ->withStatus(401)
+                ->withJson([
+                    'type'       => 'InvalidParameter',
+                    'message'    => $e->getMessage(),
+                ]);
         } catch (InvalidArgumentException $e) {
             $response = $response
                 ->withStatus(400)

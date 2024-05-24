@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Slim\App;
+use Troupe\TestlabApi\Core\Application\Middlewares\CheckToken;
 use Troupe\TestlabApi\TestCases\Application\Rest\ChangeTestCaseStatusAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\CreateFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\CreateProjectAction;
@@ -39,4 +40,5 @@ $app->group('/projects', function (App $app) use ($container) {
             $app->patch('/{id}/status', new ChangeTestCaseStatusAction($container));
         });
     });
-});
+})
+    ->add(new CheckToken($container));
