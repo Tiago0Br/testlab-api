@@ -20,7 +20,8 @@
         "robmorgan/phinx": "^0.16.0",
         "vlucas/phpdotenv": "^3.3",
         "symfony/cache": "^7.0",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "lcobucci/jwt": "^5.3"
     },
     "scripts": {
         "dev": "php -S localhost:8080 -t ./public",

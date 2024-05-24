@@ -20,7 +20,7 @@ class CreateUser
         $user = User::create($createUserDto);
         $userWithSameEmail = $this->userRepository->getByEmail($createUserDto->email);
 
-        if (count($userWithSameEmail) === 0) {
+        if (! $userWithSameEmail) {
             $this->userRepository->store($user);
 
             return $user;

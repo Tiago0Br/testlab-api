@@ -26,6 +26,16 @@ class User
     #[ORM\Column(name: 'password', type: Types::STRING)]
     private string $password;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function validatePassword(string $password): bool
+    {
+        return password_verify($password, $this->password);
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -41,7 +51,7 @@ class User
 
         $user->name = $createUserDto->name;
         $user->email = $createUserDto->email;
-        $user->password = crypt($createUserDto->password, getenv('SECRET'));
+        $user->password = password_hash($createUserDto->password, PASSWORD_BCRYPT);
 
         return $user;
     }

@@ -21,16 +21,9 @@ class UserRepositoryDoctrineOrm implements UserRepositoryInterface
         $this->entityManager->flush();
     }
 
-    public function getByEmail(string $email): array
+    public function getByEmail(string $email): ?User
     {
-        $qb = $this->entityManager->createQueryBuilder();
-        $qb
-            ->select('user')
-            ->from(User::class, 'user')
-            ->where('user.email = :EMAIL')
-            ->setParameter('EMAIL', $email);
-
-        return (array) $qb->getQuery()->getResult();
+        return $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
     }
 
     public function getById(int $id): User
