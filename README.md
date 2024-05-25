@@ -24,6 +24,12 @@ Projeto de software de gestão de casos de testes, monitoramento de bugs e contr
 
 </a>
 
+<a href="https://phpunit.de/" title="PHPUnit" target="_blank">
+
+<img src="https://phpunit.de/img/phpunit.svg" height="30px" width="80px"  alt="PHPUnit logo"/>
+
+</a>
+
 <a href="https://www.docker.com/" title="Docker" target="_blank">
 
 <img src="https://www.mundodocker.com.br/wp-content/uploads/2015/06/docker_facebook_share.png" height="50px" width="50px"  alt="Docker logo"/>
@@ -36,8 +42,9 @@ Projeto de software de gestão de casos de testes, monitoramento de bugs e contr
 
 </div>
 
--   PHP 8.3
--   Slim Framework
--   Doctrine ORM 
--   Docker
+-   PHP 8.3 como linguagem de desenvimento
+-   Slim Framework para criação das rotas
+-   Doctrine ORM para realizar a comunicação com o banco de dados
+-   Docker para rodar o banco de dados em contêiner
 -   Banco de dados MySQL
+-   Testes unitários com PHPUnit
