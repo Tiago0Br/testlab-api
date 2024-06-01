@@ -25,20 +25,22 @@ $app->group('/projects', function (App $app) use ($container) {
     $app->put('/{id}', new UpdateProjectAction($container));
     $app->get('/{id}', new GetProjectAction($container));
     $app->delete('/{id}', new DeleteProjectAction($container));
+})
+    ->add(new CheckToken($container));
 
-    $app->group('/{project_id}/folders', function (App $app) use ($container) {
-        $app->post('', new CreateFolderAction($container));
-        $app->put('/{id}', new UpdateFolderAction($container));
-        $app->delete('/{id}', new DeleteFolderAction($container));
+$app->group('/folders', function (App $app) use ($container) {
+    $app->post('', new CreateFolderAction($container));
+    $app->put('/{id}', new UpdateFolderAction($container));
+    $app->delete('/{id}', new DeleteFolderAction($container));
+})
+    ->add(new CheckToken($container));
 
-        $app->group('/{test_suite_id}/test_cases', function (App $app) use ($container) {
-            $app->post('', new CreateTestCaseAction($container));
-            $app->get('/{id}', new GetTestCaseAction($container));
-            $app->put('/{id}', new UpdateTestCaseAction($container));
-            $app->delete('/{id}', new DeleteTestCaseAction($container));
+$app->group('/test_cases', function (App $app) use ($container) {
+    $app->post('', new CreateTestCaseAction($container));
+    $app->get('/{id}', new GetTestCaseAction($container));
+    $app->put('/{id}', new UpdateTestCaseAction($container));
+    $app->delete('/{id}', new DeleteTestCaseAction($container));
 
-            $app->patch('/{id}/status', new ChangeTestCaseStatusAction($container));
-        });
-    });
+    $app->patch('/{id}/status', new ChangeTestCaseStatusAction($container));
 })
     ->add(new CheckToken($container));

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
+use Assert\Assert;
 use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
 
 class UpdateFolderDto
@@ -47,5 +48,8 @@ class UpdateFolderDto
             fields: ['folder_id', 'is_test_suite'],
             required: false
         );
+
+        Assert::that($params['folder_id'] != $params['id'])
+            ->true('A pasta não pode ser filha dela mesma');
     }
 }

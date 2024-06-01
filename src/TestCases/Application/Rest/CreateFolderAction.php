@@ -26,12 +26,9 @@ class CreateFolderAction
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
      */
-    public function __invoke(Request $request, Response $response, $args): Response
+    public function __invoke(Request $request, Response $response): Response
     {
-        $createFolderDto = CreateFolderDto::fromArray(array_merge(
-            $args,
-            (array) $request->getParsedBody()
-        ));
+        $createFolderDto = CreateFolderDto::fromArray((array) $request->getParsedBody());
 
         /** @var CreateFolder $createFolder */
         $createFolder = $this->container->get(CreateFolder::class);

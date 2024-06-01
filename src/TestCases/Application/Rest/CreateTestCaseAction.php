@@ -26,12 +26,9 @@ class CreateTestCaseAction
      * @throws NotFoundExceptionInterface
      * @throws JsonException
      */
-    public function __invoke(Request $request, Response $response, array $args): Response
+    public function __invoke(Request $request, Response $response): Response
     {
-        $createTestCaseDto = CreateTestCaseDto::fromArray(array_merge(
-            $request->getParsedBody(),
-            $args
-        ));
+        $createTestCaseDto = CreateTestCaseDto::fromArray($request->getParsedBody());
 
         /** @var CreateTestCase $createTestCase */
         $createTestCase = $this->container->get(CreateTestCase::class);

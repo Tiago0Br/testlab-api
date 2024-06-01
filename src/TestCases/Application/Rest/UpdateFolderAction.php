@@ -26,7 +26,7 @@ class UpdateFolderAction
      * @throws NotFoundExceptionInterface
      * @throws JsonException
      */
-    public function __invoke(Request $request, Response $response, $args): Response
+    public function __invoke(Request $request, Response $response, array $args): Response
     {
         $updateFolderDto = UpdateFolderDto::fromArray(array_merge(
             $args,
