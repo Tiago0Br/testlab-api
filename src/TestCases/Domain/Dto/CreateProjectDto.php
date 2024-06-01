@@ -22,7 +22,7 @@ class CreateProjectDto
         return new self(
             name: $params['name'],
             description: $params['description'],
-            ownerUserId: (int) $params['owner_user_id']
+            ownerUserId: (int) $params['user_id']
         );
     }
 
@@ -35,7 +35,7 @@ class CreateProjectDto
 
         Validator::validateInteger(
             params: $params,
-            fields: ['owner_user_id']
+            fields: ['user_id']
         );
     }
 }

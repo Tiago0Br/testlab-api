@@ -25,10 +25,13 @@ class CreateProjectAction
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
      */
-    public function __invoke(Request $request, Response $response): Response
+    public function __invoke(Request $request, Response $response, array $args): Response
     {
         $createProjectDto = CreateProjectDto::fromArray(
-            (array) $request->getParsedBody()
+            array_merge(
+                (array) $request->getParsedBody(),
+                $request->getQueryParams()
+            )
         );
 
         /** @var CreateProject $createProject */

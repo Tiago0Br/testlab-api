@@ -24,9 +24,30 @@ class CheckToken
      */
     public function __invoke(Request $request, Response $response, callable $next): Response
     {
+        $body = json_decode((string) $request->getBody(), true);
+        unset($body['user_id']);
+
         /** @var Authentication $authentication */
         $authentication = $this->container->get(Authentication::class);
-        $authentication->authenticate(HeaderToken::get());
+        $userId = $authentication->authenticate(HeaderToken::get());
+
+        $request = $request->withParsedBody($body);
+        $uri = $request->getUri();
+
+        parse_str($uri->getQuery(), $params);
+
+        $uri = $uri->withQuery(
+            http_build_query(
+                array_merge(
+                    $params,
+                    [
+                        'user_id' => $userId,
+                    ]
+                )
+            )
+        );
+
+        $request = $request->withUri($uri);
 
         return $next($request, $response);
     }
