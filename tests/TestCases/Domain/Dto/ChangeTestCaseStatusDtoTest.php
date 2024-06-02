@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Troupe\TestlabApi\Tests\TestCases;
+namespace Troupe\TestlabApi\Tests\TestCases\Domain\Dto;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Troupe\TestlabApi\Tests\TestCases;
+namespace Troupe\TestlabApi\Tests\TestCases\Domain\Dto;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -17,13 +17,13 @@ class CreateProjectDtoTest extends TestCase
         $params = [
             'name' => 'Nome do projeto',
             'description' => 'Descrição do projeto',
-            'owner_user_id' => rand(1, 100),
+            'user_id' => rand(1, 100),
         ];
         $createProjectDto = CreateProjectDto::fromArray($params);
 
         self::assertSame($params['name'], $createProjectDto->name);
         self::assertSame($params['description'], $createProjectDto->description);
-        self::assertSame($params['owner_user_id'], $createProjectDto->ownerUserId);
+        self::assertSame($params['user_id'], $createProjectDto->ownerUserId);
     }
 
     #[Test]
@@ -41,7 +41,7 @@ class CreateProjectDtoTest extends TestCase
         $params = [
             'name' => 'Nome do projeto',
             'description' => 'Descrição do projeto',
-            'owner_user_id' => rand(1, 100),
+            'user_id' => rand(1, 100),
         ];
 
         return [
@@ -70,12 +70,12 @@ class CreateProjectDtoTest extends TestCase
                 'exceptionMessage' => "O campo 'description' deve ser do tipo string"
             ],
             'fromArrayShouldFailWithOwnerUserIdNull' => [
-                'data' => ArrayHelpers::changeValue($params, 'owner_user_id', null),
-                'exceptionMessage' => "O campo 'owner_user_id' é obrigatório"
+                'data' => ArrayHelpers::changeValue($params, 'user_id', null),
+                'exceptionMessage' => "O campo 'user_id' é obrigatório"
             ],
             'fromArrayShouldFailWithOwnerUserIdHasInvalidType' => [
-                'data' => ArrayHelpers::changeValue($params, 'owner_user_id', 'a'),
-                'exceptionMessage' => "O campo 'owner_user_id' deve ser um número"
+                'data' => ArrayHelpers::changeValue($params, 'user_id', 'a'),
+                'exceptionMessage' => "O campo 'user_id' deve ser um número"
             ],
         ];
     }
