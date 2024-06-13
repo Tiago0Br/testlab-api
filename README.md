@@ -32,7 +32,7 @@ Projeto de software de gestão de casos de testes, monitoramento de bugs e contr
 
 <a href="https://www.docker.com/" title="Docker" target="_blank">
 
-<img src="https://www.mundodocker.com.br/wp-content/uploads/2015/06/docker_facebook_share.png" height="50px" width="50px"  alt="Docker logo"/>
+<img src="https://miro.medium.com/v2/resize:fit:336/0*rmv6pZTW2hfP2XYd.png" height="55px" width="55px"  alt="Docker logo"/>
 </a>
 
 <a href="https://www.mysql.com" title="MySQL" target="_blank">
