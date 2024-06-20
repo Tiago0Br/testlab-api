@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\Core\Domain\Dto;
 
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class LoginDto
 {
@@ -16,10 +16,9 @@ class LoginDto
 
     public static function fromArray(array $params): self
     {
-        Validator::validateString(
-            params: $params,
-            fields: ['email', 'password']
-        );
+        $validator = ParamsValidator::fromArray($params);
+
+        $validator->validateString(['email', 'password']);
 
         return new self(
             email: $params['email'],

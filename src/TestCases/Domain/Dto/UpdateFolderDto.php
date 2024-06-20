@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
 use Assert\Assert;
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class UpdateFolderDto
 {
@@ -33,21 +33,15 @@ class UpdateFolderDto
 
     private static function validate(array $params): void
     {
-        Validator::validateString(
-            params: $params,
-            fields: ['title']
-        );
+        $validator = ParamsValidator::fromArray($params);
 
-        Validator::validateInteger(
-            params: $params,
-            fields: ['id', 'project_id']
-        );
-
-        Validator::validateInteger(
-            params: $params,
-            fields: ['folder_id', 'is_test_suite'],
-            required: false
-        );
+        $validator
+            ->validateString(['title'])
+            ->validateInteger(['id', 'project_id'])
+            ->validateInteger(
+                fields: ['folder_id', 'is_test_suite'],
+                required: false
+            );
 
         Assert::that($params['folder_id'] != $params['id'])
             ->true('A pasta não pode ser filha dela mesma');

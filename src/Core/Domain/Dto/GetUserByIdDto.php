@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\Core\Domain\Dto;
 
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class GetUserByIdDto
 {
@@ -23,9 +23,8 @@ class GetUserByIdDto
 
     private static function validate(array $params): void
     {
-        Validator::validateInteger(
-            params: $params,
-            fields: ['id']
-        );
+        $validator = ParamsValidator::fromArray($params);
+
+        $validator->validateInteger(['id']);
     }
 }

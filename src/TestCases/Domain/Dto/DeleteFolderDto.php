@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class DeleteFolderDto
 {
@@ -26,9 +26,8 @@ class DeleteFolderDto
 
     private static function validate(array $params): void
     {
-        Validator::validateInteger(
-            params: $params,
-            fields: ['id', 'project_id']
-        );
+        $validator = ParamsValidator::fromArray($params);
+
+        $validator->validateInteger(['id', 'project_id']);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class GetTestCaseDto
 {
@@ -15,10 +15,9 @@ class GetTestCaseDto
 
     public static function fromArray(array $params): self
     {
-        Validator::validateInteger(
-            params: $params,
-            fields: ['id']
-        );
+        $validator = ParamsValidator::fromArray($params);
+
+        $validator->validateInteger(['id']);
 
         return new self(
             id: (int) $params['id']

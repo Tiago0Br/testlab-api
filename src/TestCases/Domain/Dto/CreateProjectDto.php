@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class CreateProjectDto
 {
@@ -28,14 +28,10 @@ class CreateProjectDto
 
     private static function validate(array $params): void
     {
-        Validator::validateString(
-            params: $params,
-            fields: ['name', 'description']
-        );
+        $validator = ParamsValidator::fromArray($params);
 
-        Validator::validateInteger(
-            params: $params,
-            fields: ['user_id']
-        );
+        $validator
+            ->validateString(['name', 'description'])
+            ->validateInteger(['user_id']);
     }
 }

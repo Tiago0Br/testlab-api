@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class CreateFolderDto
 {
@@ -30,20 +30,14 @@ class CreateFolderDto
 
     private static function validate(array $params): void
     {
-        Validator::validateString(
-            params: $params,
-            fields: ['title']
-        );
+        $validator = ParamsValidator::fromArray($params);
 
-        Validator::validateInteger(
-            params: $params,
-            fields: ['project_id']
-        );
-
-        Validator::validateInteger(
-            params: $params,
-            fields: ['folder_id', 'is_test_suite'],
-            required: false
-        );
+        $validator
+            ->validateString(['title'])
+            ->validateInteger(['project_id'])
+            ->validateInteger(
+                fields: ['folder_id', 'is_test_suite'],
+                required: false
+            );
     }
 }

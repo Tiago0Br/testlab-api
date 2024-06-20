@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
 use Assert\Assert;
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 use Troupe\TestlabApi\TestCases\Domain\Enum\TestCaseStatusType;
 
 class ChangeTestCaseStatusDto
@@ -30,21 +30,15 @@ class ChangeTestCaseStatusDto
 
     private static function validate(array $params): void
     {
-        Validator::validateInteger(
-            params: $params,
-            fields: ['id'],
-        );
+        $validator = ParamsValidator::fromArray($params);
 
-        Validator::validateString(
-            params: $params,
-            fields: ['status'],
-        );
-
-        Validator::validateString(
-            params: $params,
-            fields: ['note'],
-            required: false
-        );
+        $validator
+            ->validateInteger(['id'])
+            ->validateString(['status'])
+            ->validateString(
+                fields: ['note'],
+                required: false
+            );
 
         Assert::that(TestCaseStatusType::statusExists($params['status']))
             ->true("Status '{$params['status']}' inválido");

@@ -2,7 +2,7 @@
 
 namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
-use Troupe\TestlabApi\Core\Domain\Helpers\Validator;
+use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class UpdateTestCaseDto
 {
@@ -28,20 +28,14 @@ class UpdateTestCaseDto
 
     private static function validate(array $params): void
     {
-        Validator::validateInteger(
-            params: $params,
-            fields: ['id']
-        );
+        $validator = ParamsValidator::fromArray($params);
 
-        Validator::validateString(
-            params: $params,
-            fields: ['title', 'summary']
-        );
-
-        Validator::validateString(
-            params: $params,
-            fields: ['preconditions'],
-            required: false
-        );
+        $validator
+            ->validateInteger(['id'])
+            ->validateString(['title', 'summary'])
+            ->validateString(
+                fields: ['preconditions'],
+                required: false
+            );
     }
 }
