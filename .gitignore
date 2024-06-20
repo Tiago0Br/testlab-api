@@ -1,5 +1,6 @@
 .env
 /vendor/
 /.idea
+/.docker
 /logs/*.txt
 .phpunit.result.cache
