@@ -2,5 +2,6 @@
 /vendor/
 /.idea
 /.docker
+/public/apidoc
 /logs/*.txt
 .phpunit.result.cache

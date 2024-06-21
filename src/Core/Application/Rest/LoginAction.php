@@ -23,6 +23,48 @@ class LoginAction
     }
 
     /**
+     * @api {post} /login               Realiza login no sistema
+     *
+     * @apiName Login
+     * @apiGroup Usuario
+     * @apiVersion v1.0.0
+     *
+     * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
+     *
+     * @apiBody {String} email          E-mail do usuário
+     * @apiBody {String} password       Senha do usuário
+     *
+     * @apiParamExample {json} Request-Example:
+     *     {
+     *          "email": "teste@gmail.com",
+     *          "password": "Senha123"
+     *     }
+     *
+     * @apiSuccess {Object} message Mensagem de retorno da API.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 201 Created
+     *      {
+     *          "user": {
+     *              "id": 1,
+     *              "name": "Tiago Lopes",
+     *              "email": "teste2@gmail.com"
+     *          },
+     *          "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.asdasd35345345"
+     *      }
+     *
+     * @apiError {String} type           Tipo de erro, geralmente `BusinessLogic`.
+     * @apiError {String} message        Erro ocorrido.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 409 Conflict
+     *     {
+     *       "type": "BusinessLogic",
+     *       "message": "E-mail e/ou senha inválidos"
+     *     }
+     */
+
+    /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws JsonException

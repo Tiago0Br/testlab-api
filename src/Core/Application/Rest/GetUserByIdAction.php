@@ -21,6 +21,38 @@ class GetUserByIdAction
     }
 
     /**
+     * @api {get} /users/123            Busca usuário por ID
+     *
+     * @apiName BuscaUsuarioPorId
+     * @apiGroup Usuario
+     * @apiVersion v1.0.0
+     *
+     * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
+     *
+     * @apiQuery {String} id            ID do usuário
+     *
+     * @apiSuccess {Object} message Mensagem de retorno da API.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *      {
+     *          "id": 1,
+     *          "name": "Tiago Lopes",
+     *          "email": "teste@gmail.com"
+     *      }
+     *
+     * @apiError {String} type           Tipo de erro, geralmente `BusinessLogic`.
+     * @apiError {String} message        Erro ocorrido.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {
+     *       "type": "NotFound",
+     *       "message": "Usuário não encontrado"
+     *     }
+     */
+
+    /**
      * @throws JsonException
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface

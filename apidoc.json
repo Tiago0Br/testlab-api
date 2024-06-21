@@ -1,0 +1,11 @@
+{
+  "name": "Testlab API",
+  "version": "v1.0.0",
+  "title": "Testlab API",
+  "description": "API do projeto Testlab",
+  "useHostUrlAsSampleUrl": true,
+  "header" : {
+    "title": "Módulos",
+    "filename": "README-API.md"
+  }
+}

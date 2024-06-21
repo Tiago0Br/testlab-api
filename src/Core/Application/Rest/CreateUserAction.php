@@ -21,6 +21,47 @@ class CreateUserAction
     }
 
     /**
+     * @api {post} /users               Cadastro de usuários
+     *
+     * @apiName CriaUsuario
+     * @apiGroup Usuario
+     * @apiVersion v1.0.0
+     *
+     * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
+     *
+     * @apiBody {String} name           Nome do usuário
+     * @apiBody {String} email          E-mail do usuário
+     * @apiBody {String} password       Senha do usuário
+     *
+     * @apiParamExample {json} Request-Example:
+     *     {
+     *          "name": "Tiago Lopes",
+     *          "email": "teste@gmail.com",
+     *          "password": "Senha123"
+     *     }
+     *
+     * @apiSuccess {Object} message Mensagem de retorno da API.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 201 Created
+     *      {
+     *          "id": 1,
+     *          "name": "Tiago Lopes",
+     *          "email": "teste@gmail.com"
+     *      }
+     *
+     * @apiError {String} type           Tipo de erro, geralmente `BusinessLogic`.
+     * @apiError {String} message        Erro ocorrido.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 409 Conflict
+     *     {
+     *       "type": "BusinessLogic",
+     *       "message": "E-mail já cadastrado"
+     *     }
+     */
+
+    /**
      * @throws JsonException
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface

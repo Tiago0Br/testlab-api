@@ -20,6 +20,36 @@ class RecoverUserInfo
     }
 
     /**
+     * @api {get} /users                Recupera informações do usuário logado
+     *
+     * @apiName RecuperaInformacoesUsuario
+     * @apiGroup Usuario
+     * @apiVersion v1.0.0
+     *
+     * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
+     *
+     * @apiSuccess {Object} message Mensagem de retorno da API.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *      {
+     *          "id": 1,
+     *          "name": "Tiago Lopes",
+     *          "email": "teste@gmail.com"
+     *      }
+     *
+     * @apiError {String} type           Tipo de erro, geralmente `BusinessLogic`.
+     * @apiError {String} message        Erro ocorrido.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 Unauthorized
+     *     {
+     *       "type": "Unauthorized",
+     *       "message": "Token inválido ou não informado"
+     *     }
+     */
+
+    /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws JsonException

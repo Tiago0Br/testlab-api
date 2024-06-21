@@ -27,7 +27,8 @@
     "scripts": {
         "dev": "php -S localhost:8080 -t ./public",
         "migrate": "phinx migrate",
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "apidoc": "apidoc -i ./src/ -o ./public/apidoc"
     },
     "require-dev": {
         "phpunit/phpunit": "^11"
