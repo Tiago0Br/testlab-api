@@ -21,7 +21,10 @@ class GetUserByIdAction
     }
 
     /**
-     * @api {get} /users/123            Busca usuário por ID
+     * @api {get} /users/{id}           Busca usuário por ID
+     *
+     * @apiExample Exemplo:
+     *      http://localhost:8080/users/1234
      *
      * @apiName BuscaUsuarioPorId
      * @apiGroup Usuario
@@ -29,9 +32,9 @@ class GetUserByIdAction
      *
      * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
      *
-     * @apiQuery {String} id            ID do usuário
+     * @apiParam {String} id            ID do usuário
      *
-     * @apiSuccess {Object} message Mensagem de retorno da API.
+     * @apiSuccess {Object} message     Mensagem de retorno da API.
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK

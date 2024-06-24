@@ -21,6 +21,79 @@ class ChangeTestCaseStatusAction
     }
 
     /**
+     * @api {post} /test_cases/{id}/status         Altera o status de um caso de teste
+     *
+     * @apiExample Exemplo:
+     *      http://localhost:8080/test_cases/123/status
+     *
+     * @apiName AlteraStatusCasoDeTeste
+     * @apiGroup CasosDeTestes
+     * @apiVersion v1.0.0
+     *
+     * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
+     *
+     * @apiParam {String} id            ID do caso de testes
+     * @apiBody {String|null} note      Observação sobre a mudança de status
+     *
+     * @apiParamExample {json} Request-Example:
+     *      {
+     *          "status": "EM EXECUÇÃO",
+     *          "note": "O teste está rolando"
+     *      }
+     *
+     * @apiSuccess {Object} message Mensagem de retorno da API.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 201 Created
+     *      {
+     *          "id": 1,
+     *          "title": "Título do caso de testes",
+     *          "summary": "Resumo do teste",
+     *          "preconditions": null,
+     *          "status": [
+     *              {
+     *                  "id": 2,
+     *                  "status": "EM EXECUÇÃO",
+     *                  "note": "O teste está rolando",
+     *                  "created_at": "2024-06-23 20:40:22"
+     *              },
+     *              {
+     *                  "id": 1,
+     *                  "status": "NÃO EXECUTADO",
+     *                  "note": null,
+     *                  "created_at": "2024-06-23 20:40:17"
+     *              }
+     *          ],
+     *          "test_suite": {
+     *              "id": 1,
+     *              "title": "Pasta teste",
+     *              "project": {
+     *                  "id": 1,
+     *                  "name": "Projeto legal de outro usuário",
+     *                  "description": "testes do Saúde Digital",
+     *                  "owner_user": {
+     *                      "id": 1,
+     *                      "name": "Tiago Lopes",
+     *                      "email": "teste2@gmail.com"
+     *                  }
+     *              },
+     *              "folder": null,
+     *              "is_test_suite": 1
+     *          }
+     *      }
+     *
+     * @apiError {String} type           Tipo de erro, geralmente `BusinessLogic`.
+     * @apiError {String} message        Erro ocorrido.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {
+     *       "type": "NotFound",
+     *       "message": "Caso de testes não encontrado"
+     *     }
+     */
+
+    /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws JsonException
