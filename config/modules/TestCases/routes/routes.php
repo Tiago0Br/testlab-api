@@ -12,6 +12,7 @@ use Troupe\TestlabApi\TestCases\Application\Rest\DeleteFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteProjectAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteTestCaseAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectAction;
+use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectFoldersAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetTestCaseAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateProjectAction;
@@ -25,6 +26,7 @@ $app->group('/projects', function (App $app) use ($container) {
     $app->put('/{id}', new UpdateProjectAction($container));
     $app->get('/{id}', new GetProjectAction($container));
     $app->delete('/{id}', new DeleteProjectAction($container));
+    $app->get('/{id}/folders', new GetProjectFoldersAction($container));
 })
     ->add(new CheckToken($container));
 

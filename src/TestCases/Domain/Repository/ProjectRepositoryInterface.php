@@ -12,5 +12,8 @@ interface ProjectRepositoryInterface
 
     public function getById(int $projectId): Project;
 
+    /** @return Project[] */
+    public function getUserProjects(int $userId): array;
+
     public function remove(Project $project): void;
 }

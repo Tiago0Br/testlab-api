@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\TestCases\Domain\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Troupe\TestlabApi\TestCases\Domain\Dto\CreateFolderDto;
@@ -25,9 +27,9 @@ class Folder
     #[ORM\JoinColumn(name: 'project_id', referencedColumnName: 'id')]
     private Project $project;
 
-    #[ORM\OneToOne(targetEntity: Folder::class)]
+    #[ORM\ManyToOne(targetEntity: Folder::class)]
     #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id')]
-    private ?Folder $folder;
+    private ?Folder $parentFolder;
 
     #[ORM\Column(name: 'is_test_suite', type: Types::INTEGER)]
     private ?int $isTestSuite;
@@ -38,7 +40,7 @@ class Folder
             'id' => $this->id,
             'title' => $this->title,
             'project' => $this->project->jsonSerialize(),
-            'folder' => $this->folder?->jsonSerialize(),
+            'folder' => $this->parentFolder?->jsonSerialize(),
             'is_test_suite' => $this->isTestSuite,
         ];
     }
@@ -46,13 +48,13 @@ class Folder
     public static function create(
         CreateFolderDto $createFolderDto,
         Project $project,
-        Folder $folder = null
+        Folder $parentFolder = null
     ): self {
         $instance = new self();
         $instance->title = $createFolderDto->title;
         $instance->isTestSuite = $createFolderDto->isTestSuit ?? 0;
         $instance->project = $project;
-        $instance->folder = $folder;
+        $instance->parentFolder = $parentFolder;
 
         return $instance;
     }
@@ -60,11 +62,11 @@ class Folder
     public function update(
         UpdateFolderDto $updateFolderDto,
         Project $project,
-        Folder $folder = null
+        Folder $parentFolder = null
     ): void {
         $this->title = $updateFolderDto->title;
         $this->project = $project;
         $this->isTestSuite = $updateFolderDto->isTestSuit ?? 0;
-        $this->folder = $folder;
+        $this->parentFolder = $parentFolder;
     }
 }

@@ -33,7 +33,7 @@ class UpdateFolder
         $folder->update(
             updateFolderDto: $updateFolderDto,
             project: $project,
-            folder: $parentFolder
+            parentFolder: $parentFolder
         );
 
         $this->folderRepository->store($folder);

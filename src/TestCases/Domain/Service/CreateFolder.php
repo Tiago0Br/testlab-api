@@ -32,7 +32,7 @@ class CreateFolder
         $folder = Folder::create(
             createFolderDto: $createFolderDto,
             project: $project,
-            folder: $parentFolder
+            parentFolder: $parentFolder
         );
 
         $this->folderRepository->store($folder);

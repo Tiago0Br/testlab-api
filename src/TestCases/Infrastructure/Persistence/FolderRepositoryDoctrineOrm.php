@@ -55,14 +55,29 @@ class FolderRepositoryDoctrineOrm implements FolderRepositoryInterface
 
     public function getSubfoldersByFolderId(int $id): array
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $qb = $this->entityManager->createQueryBuilder();
 
-        $query = $queryBuilder
+        $query = $qb
             ->select('folder')
             ->from(Folder::class, 'folder')
             ->innerJoin('folder.folder', 'parentFolder')
             ->where('parentFolder.id = :ID')
             ->setParameter('ID', $id)
+            ->getQuery();
+
+        return (array) $query->getResult();
+    }
+
+    public function getProjectFolders(int $projectId): array
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $query = $qb
+            ->select('folder')
+            ->from(Folder::class, 'folder')
+            ->innerJoin('folder.project', 'project')
+            ->where('project.id = :PROJECT_ID')
+            ->setParameter('PROJECT_ID', $projectId)
             ->getQuery();
 
         return (array) $query->getResult();
