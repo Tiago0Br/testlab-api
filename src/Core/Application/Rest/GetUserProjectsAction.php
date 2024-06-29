@@ -21,6 +21,46 @@ class GetUserProjectsAction
     }
 
     /**
+     * @api {get} /users/projects       Busca os projetos que o usuário tem acesso
+     *
+     * @apiName BuscaProjetosDoUsuario
+     * @apiGroup Usuario
+     * @apiVersion v1.0.0
+     *
+     * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
+     *
+     * @apiSuccess {Object[]} data              Array com os projetos que o usuário tem acesso
+     * @apiSuccess {Int} data.id                ID do projeto
+     * @apiSuccess {String} data.name           Nome do projeto
+     * @apiSuccess {String} data.description    Descrição do projeto
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *      [
+     *          {
+     *              "id": 1,
+     *              "name": "Projeto 1",
+     *              "description": "testes do Saúde Digital"
+     *          },
+     *          {
+     *              "id": 2,
+     *              "name": "Projeto 2",
+     *              "description": "testes do Saúde Digital"
+     *          }
+     *      ]
+     *
+     * @apiError {String} type           Tipo de erro, geralmente `BusinessLogic`.
+     * @apiError {String} message        Erro ocorrido.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 Not Found
+     *     {
+     *       "type": "Unauthorized",
+     *       "message": "Token inválido ou não enviado"
+     *     }
+     */
+
+    /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws JsonException

@@ -34,7 +34,9 @@ class GetUserByIdAction
      *
      * @apiParam {String} id            ID do usuário
      *
-     * @apiSuccess {Object} message     Mensagem de retorno da API.
+     * @apiSuccess {Int} id             ID do usuário cadastrado
+     * @apiSuccess {String} name        Nome do usuário cadastrado
+     * @apiSuccess {String} email       E-mail do usuário cadastrado
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK

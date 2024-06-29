@@ -41,7 +41,16 @@ class ChangeTestCaseStatusAction
      *          "note": "O teste está rolando"
      *      }
      *
-     * @apiSuccess {Object} message Mensagem de retorno da API.
+     * @apiSuccess {Int} id                         ID do caso de testes.
+     * @apiSuccess {String}                         title Título do caso de testes
+     * @apiSuccess {String} summary                 Resumo do caso de testes
+     * @apiSuccess {String|null} preconditions      Pré-condições do caso de testes
+     * @apiSuccess {Object[]} status                Situação do caso de testes ("EM EXECUÇÃO", "CANCELADO", etc)
+     * @apiSuccess {Int} status.id                  ID do status do caso de testes
+     * @apiSuccess {String} status.status           Situação do caso de testes
+     * @apiSuccess {String|null} note               Observações sobre a situação do caso de testes
+     * @apiSuccess {String} created_at              Data em que o status foi alterado
+     * @apiSuccess {Object} test_suite              Suíte de testes onde o teste se encontra
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 201 Created

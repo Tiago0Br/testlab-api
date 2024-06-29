@@ -23,6 +23,48 @@ class GetProjectFoldersAction
     }
 
     /**
+     * @api {get} /projects/{id}/folders           Busca as pastas de um projeto
+     *
+     * @apiExample Exemplo:
+     *      http://localhost:8080/projects/1/folders
+     *
+     * @apiName BuscaPastasDoProjeto
+     * @apiGroup CasosDeTestes
+     * @apiVersion v1.0.0
+     *
+     * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
+     *
+     * @apiParam {String} id            ID do projeto
+     *
+     * @apiSuccess {Object[]} data              Array com os dados das pastas do projeto
+     * @apiSuccess {Int} data.id                ID da pasta
+     * @apiSuccess {String} data.title          Título da pasta
+     * @apiSuccess {String|null} data.folder    Pasta "pai" ou nulo, caso a pasta esteja na raiz do projeto
+     * @apiSuccess {Int} data.is_test_suite     Parâmetro para dizer se a pasta possui casos de testes ou não
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *      [
+     *          {
+     *              "id": 1,
+     *              "title": "Pasta teste",
+     *              "folder": null,
+     *              "is_test_suite": 1
+     *          }
+     *      ]
+     *
+     * @apiError {String} type           Tipo de erro, geralmente `BusinessLogic`.
+     * @apiError {String} message        Erro ocorrido.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 404 Not Found
+     *     {
+     *       "type": "NotFound",
+     *       "message": "Usuário não encontrado"
+     *     }
+     */
+
+    /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws JsonException

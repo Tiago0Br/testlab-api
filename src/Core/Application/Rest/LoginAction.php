@@ -40,7 +40,11 @@ class LoginAction
      *          "password": "Senha123"
      *     }
      *
-     * @apiSuccess {Object} message Mensagem de retorno da API.
+     * @apiSuccess {Object} user            Dados do usuário que fez o login
+     * @apiSuccess {Int} user.id            ID do usuário logado
+     * @apiSuccess {String} user.name       Nome do usuário logado
+     * @apiSuccess {String} user.email      E-mail do usuário logado
+     * @apiSuccess {String} token           Token de autenticação do usuário
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 201 Created
