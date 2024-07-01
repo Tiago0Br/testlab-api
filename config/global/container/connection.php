@@ -29,7 +29,7 @@ $container['doctrine-testlab'] = static function () {
         isDevMode: $isDevMode,
     );
 
-    $config->setMetadataDriverImpl(new AttributeDriver($paths, $isDevMode));
+    $config->setMetadataDriverImpl(new AttributeDriver($paths));
     $config->setProxyDir(__DIR__ . '/../../../data/cache/Proxies');
     $config->setProxyNamespace('cache\Proxies');
 
