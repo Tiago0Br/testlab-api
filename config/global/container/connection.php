@@ -2,6 +2,7 @@
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\ORMSetup;
 use Psr\Container\ContainerInterface;
 
@@ -20,16 +21,17 @@ $container['doctrine-testlab'] = static function () {
         'charset'  => 'utf8',
     ];
 
+    $paths = [__DIR__ . '/../../../src'];
+    $isDevMode = getenv('APP_ENV') != 'production';
+
     $config = ORMSetup::createAttributeMetadataConfiguration(
         paths: array(__DIR__."/src"),
-        isDevMode: getenv('APP_ENV') != 'production',
+        isDevMode: $isDevMode,
     );
 
-    if (getenv('APP_ENV') != 'production') {
-        $config->setAutoGenerateProxyClasses(true);
-    } else {
-        $config->setAutoGenerateProxyClasses(false);
-    }
+    $config->setMetadataDriverImpl(new AttributeDriver($paths, $isDevMode));
+    $config->setProxyDir(__DIR__ . '/../../../data/cache/Proxies');
+    $config->setProxyNamespace('cache\Proxies');
 
     $connection = DriverManager::getConnection($connectionParams, $config);
 
