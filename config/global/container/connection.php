@@ -25,6 +25,12 @@ $container['doctrine-testlab'] = static function () {
         isDevMode: getenv('APP_ENV') != 'production',
     );
 
+    if (getenv('APP_ENV') != 'production') {
+        $config->setAutoGenerateProxyClasses(true);
+    } else {
+        $config->setAutoGenerateProxyClasses(false);
+    }
+
     $connection = DriverManager::getConnection($connectionParams, $config);
 
     return new EntityManager($connection, $config);
