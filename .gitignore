@@ -5,3 +5,4 @@
 /public/apidoc
 /logs/*.txt
 .phpunit.result.cache
+/data/cache/
