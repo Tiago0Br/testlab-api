@@ -1,9 +1,9 @@
 <?php
 
 use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
-use Doctrine\ORM\ORMSetup;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -24,12 +24,8 @@ $container['doctrine-testlab'] = static function () {
     $paths = [__DIR__ . '/../../../src'];
     $isDevMode = getenv('APP_ENV') != 'production';
 
-    $config = ORMSetup::createAttributeMetadataConfiguration(
-        paths: array(__DIR__."/src"),
-        isDevMode: $isDevMode,
-    );
-
-    $config->setMetadataDriverImpl(new AttributeDriver($paths));
+    $config = new Configuration();
+    $config->setMetadataDriverImpl(new AttributeDriver($paths, $isDevMode));
     $config->setProxyDir(__DIR__ . '/../../../data/cache/Proxies');
     $config->setProxyNamespace('cache\Proxies');
 
