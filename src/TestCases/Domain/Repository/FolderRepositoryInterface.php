@@ -16,7 +16,7 @@ interface FolderRepositoryInterface
     public function getByIdAndProject(int $id, Project $project): Folder;
 
     /** @return Folder[] */
-    public function getProjectFolders(int $projectId): array;
+    public function getFolderContent(int $projectId, ?Folder $folder): array;
 
     public function getSubfoldersByFolderId(int $id): array;
 

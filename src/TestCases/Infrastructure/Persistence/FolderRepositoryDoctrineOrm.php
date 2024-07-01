@@ -68,18 +68,26 @@ class FolderRepositoryDoctrineOrm implements FolderRepositoryInterface
         return (array) $query->getResult();
     }
 
-    public function getProjectFolders(int $projectId): array
+    public function getFolderContent(int $projectId, ?Folder $folder): array
     {
         $qb = $this->entityManager->createQueryBuilder();
 
-        $query = $qb
+        $qb
             ->select('folder')
             ->from(Folder::class, 'folder')
             ->innerJoin('folder.project', 'project')
             ->where('project.id = :PROJECT_ID')
-            ->setParameter('PROJECT_ID', $projectId)
-            ->getQuery();
+            ->setParameter('PROJECT_ID', $projectId);
 
-        return (array) $query->getResult();
+        if ($folder) {
+            $qb
+                ->andWhere("folder.parentFolder = :FOLDER")
+                ->setParameter('FOLDER', $folder);
+        } else {
+            $qb
+                ->andWhere("folder.parentFolder IS null");
+        }
+
+        return (array) $qb->getQuery()->getResult();
     }
 }

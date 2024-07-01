@@ -8,6 +8,8 @@ class FolderPresenter
 {
     public static function format(array $folder): array
     {
+        unset($folder['project']['owner_user']);
+
         return [
             'id' => $folder['id'],
             'title' => $folder['title'],
