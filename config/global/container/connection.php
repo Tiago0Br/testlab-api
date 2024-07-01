@@ -22,10 +22,9 @@ $container['doctrine-testlab'] = static function () {
     ];
 
     $paths = [__DIR__ . '/../../../src'];
-    $isDevMode = getenv('APP_ENV') != 'production';
 
     $config = new Configuration();
-    $config->setMetadataDriverImpl(new AttributeDriver($paths, $isDevMode));
+    $config->setMetadataDriverImpl(new AttributeDriver($paths));
     $config->setProxyDir(__DIR__ . '/../../../data/cache/Proxies');
     $config->setProxyNamespace('cache\Proxies');
 
