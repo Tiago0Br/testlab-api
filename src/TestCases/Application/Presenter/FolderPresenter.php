@@ -21,4 +21,12 @@ class FolderPresenter
             'is_test_suite' => $folder['is_test_suite']
         ];
     }
+
+    public static function onlyFolderData(array $folder): array
+    {
+        $content = self::format($folder);
+        unset($content['project'], $content['folder']);
+
+        return $content;
+    }
 }

@@ -22,7 +22,7 @@ use Troupe\TestlabApi\TestCases\Application\Rest\UpdateTestCaseAction;
 $container = $app->getContainer();
 
 $app->group('/projects', function (App $app) use ($container) {
-    $app->post('', new CreateProjectAction($container));
+    $app->post('/new', new CreateProjectAction($container));
     $app->put('/{id}', new UpdateProjectAction($container));
     $app->get('/{id}', new GetProjectAction($container));
     $app->delete('/{id}', new DeleteProjectAction($container));
@@ -31,14 +31,14 @@ $app->group('/projects', function (App $app) use ($container) {
     ->add(new CheckToken($container));
 
 $app->group('/folders', function (App $app) use ($container) {
-    $app->post('', new CreateFolderAction($container));
+    $app->post('/new', new CreateFolderAction($container));
     $app->put('/{id}', new UpdateFolderAction($container));
     $app->delete('/{id}', new DeleteFolderAction($container));
 })
     ->add(new CheckToken($container));
 
 $app->group('/test_cases', function (App $app) use ($container) {
-    $app->post('', new CreateTestCaseAction($container));
+    $app->post('/new', new CreateTestCaseAction($container));
     $app->get('/{id}', new GetTestCaseAction($container));
     $app->put('/{id}', new UpdateTestCaseAction($container));
     $app->delete('/{id}', new DeleteTestCaseAction($container));

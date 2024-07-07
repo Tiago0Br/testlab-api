@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\StatusCode;
 use Troupe\TestlabApi\TestCases\Application\Presenter\FolderPresenter;
+use Troupe\TestlabApi\TestCases\Application\Presenter\TestCasePresenter;
 use Troupe\TestlabApi\TestCases\Domain\Entity\Folder;
 use Troupe\TestlabApi\TestCases\Domain\Entity\TestCase;
 use Troupe\TestlabApi\TestCases\Domain\Repository\FolderRepositoryInterface;
@@ -103,8 +104,12 @@ class GetFolderContent
         $folders = $folderRepository->getFolderContent($getFolderContentDto->projectId, $folder);
 
         $responseBody = [
-            'folders' => array_map(fn(Folder $folder) => FolderPresenter::format($folder->jsonSerialize()), $folders),
-            'test_cases' => array_map(fn(TestCase $testCase) => $testCase->jsonSerialize(), $testCases),
+            'folders' => array_map(function(Folder $folder) {
+                return FolderPresenter::onlyFolderData($folder->jsonSerialize());
+            }, $folders),
+            'test_cases' => array_map(function(TestCase $testCase) {
+                return TestCasePresenter::onlyTestCaseData($testCase->jsonSerialize());
+            }, $testCases),
         ];
 
         $body = $response->getBody();

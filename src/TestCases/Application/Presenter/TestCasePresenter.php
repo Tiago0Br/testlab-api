@@ -24,4 +24,13 @@ class TestCasePresenter
             ]
         ];
     }
+
+    public static function onlyTestCaseData(array $testCase): array
+    {
+        $content = self::format($testCase);
+        $content['status'] = $testCase['status'][0];
+        unset($content['test_suite']);
+
+        return $content;
+    }
 }

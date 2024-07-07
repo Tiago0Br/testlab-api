@@ -14,7 +14,7 @@ use Troupe\TestlabApi\Core\Application\Rest\RecoverUserInfo;
 $container = $app->getContainer();
 
 $app->group('/users', function (App $app) use ($container) {
-    $app->post('', new CreateUserAction($container));
+    $app->post('/new', new CreateUserAction($container));
     $app->get('/info', new RecoverUserInfo($container))
         ->add(new CheckToken($container));
     $app->get('/projects', new GetUserProjectsAction($container))
