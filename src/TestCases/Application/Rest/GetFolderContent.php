@@ -91,29 +91,15 @@ class GetFolderContent
         /** @var FolderRepositoryInterface $folderRepository */
         $folderRepository = $this->container->get(FolderRepositoryInterface::class);
 
-        /** @var TestCaseRepositoryInterface $testCaseRepository */
-        $testCaseRepository = $this->container->get(TestCaseRepositoryInterface::class);
-
         $folder = null;
-        $testCases = [];
         if ($getFolderContentDto->folderId) {
             $folder = $folderRepository->getById($getFolderContentDto->folderId);
-            $testCases = $testCaseRepository->getTestCasesByFolder($folder);
         }
 
-        $folders = $folderRepository->getFolderContent($getFolderContentDto->projectId, $folder);
-
-        $responseBody = [
-            'folders' => array_map(function(Folder $folder) {
-                return FolderPresenter::onlyFolderData($folder->jsonSerialize());
-            }, $folders),
-            'test_cases' => array_map(function(TestCase $testCase) {
-                return TestCasePresenter::onlyTestCaseData($testCase->jsonSerialize());
-            }, $testCases),
-        ];
+        $folderContent = $folderRepository->getFolderContent($getFolderContentDto->projectId, $folder);
 
         $body = $response->getBody();
-        $body->write((string) json_encode($responseBody, JSON_THROW_ON_ERROR));
+        $body->write((string) json_encode($folderContent->jsonSerialize(), JSON_THROW_ON_ERROR));
 
         return $response
             ->withStatus(StatusCode::HTTP_OK)

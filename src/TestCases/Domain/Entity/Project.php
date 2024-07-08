@@ -29,6 +29,11 @@ class Project
     #[ORM\JoinColumn(name: 'owner_user_id', referencedColumnName: 'id')]
     private User $ownerUser;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function jsonSerialize(): array
     {
         return [

@@ -34,6 +34,21 @@ class Folder
     #[ORM\Column(name: 'is_test_suite', type: Types::INTEGER)]
     private ?int $isTestSuite;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getParentFolderId(): ?int
+    {
+        return $this->parentFolder?->getId();
+    }
+
+    public function getProjectId(): int
+    {
+        return $this->project->getId();
+    }
+
     public function jsonSerialize(): array
     {
         return [

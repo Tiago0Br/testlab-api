@@ -22,8 +22,8 @@ class DeleteFolder
         $project = $this->projectRepository->getById($deleteFolderDto->projectId);
         $folder = $this->folderRepository->getByIdAndProject($deleteFolderDto->id, $project);
 
-        $folderContent = $this->folderRepository->getSubfoldersByFolderId($deleteFolderDto->id);
-        if (count($folderContent) === 0) {
+        $folderContent = $this->folderRepository->getFolderContent($folder->getProjectId(), $folder);
+        if (empty($folderContent->folders && empty($folderContent->testCases))) {
             $removedFolder = $folder->jsonSerialize();
             $this->folderRepository->remove($folder);
 

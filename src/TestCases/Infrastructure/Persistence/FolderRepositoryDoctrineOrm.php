@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Troupe\TestlabApi\TestCases\Infrastructure\Persistence;
 
 use Doctrine\ORM\EntityManager;
+use Troupe\TestlabApi\TestCases\Domain\Dto\FolderContentDto;
 use Troupe\TestlabApi\TestCases\Domain\Entity\Folder;
 use Troupe\TestlabApi\TestCases\Domain\Entity\Project;
+use Troupe\TestlabApi\TestCases\Domain\Entity\TestCase;
 use Troupe\TestlabApi\TestCases\Domain\Exception\FolderNotFound;
 use Troupe\TestlabApi\TestCases\Domain\Repository\FolderRepositoryInterface;
 
@@ -53,25 +55,15 @@ class FolderRepositoryDoctrineOrm implements FolderRepositoryInterface
         $this->entityManager->flush();
     }
 
-    public function getSubfoldersByFolderId(int $id): array
+    public function getFolderContent(int $projectId, ?Folder $folder): FolderContentDto
     {
+        $content = [];
+
+        if ($folder && $folder->getParentFolderId()) {
+            $content['parent_folder'] = $this->entityManager->find(Folder::class, $folder->getParentFolderId());
+        }
+
         $qb = $this->entityManager->createQueryBuilder();
-
-        $query = $qb
-            ->select('folder')
-            ->from(Folder::class, 'folder')
-            ->innerJoin('folder.folder', 'parentFolder')
-            ->where('parentFolder.id = :ID')
-            ->setParameter('ID', $id)
-            ->getQuery();
-
-        return (array) $query->getResult();
-    }
-
-    public function getFolderContent(int $projectId, ?Folder $folder): array
-    {
-        $qb = $this->entityManager->createQueryBuilder();
-
         $qb
             ->select('folder')
             ->from(Folder::class, 'folder')
@@ -88,6 +80,24 @@ class FolderRepositoryDoctrineOrm implements FolderRepositoryInterface
                 ->andWhere("folder.parentFolder IS null");
         }
 
-        return (array) $qb->getQuery()->getResult();
+        $content['folders'] = (array) $qb->getQuery()->getResult();
+
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb
+            ->select('testcase')
+            ->from(TestCase::class, 'testcase');
+
+        if ($folder) {
+            $qb
+                ->andWhere("testcase.testSuite = :TEST_SUITE")
+                ->setParameter('TEST_SUITE', $folder);
+        } else {
+            $qb
+                ->andWhere("testcase.testSuite IS null");
+        }
+
+        $content['test_cases'] = (array) $qb->getQuery()->getResult();
+
+        return FolderContentDto::populate($content);
     }
 }
