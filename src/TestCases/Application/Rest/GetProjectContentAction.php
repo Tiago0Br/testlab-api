@@ -11,33 +11,30 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\StatusCode;
-use Troupe\TestlabApi\TestCases\Application\Presenter\FolderPresenter;
-use Troupe\TestlabApi\TestCases\Application\Presenter\TestCasePresenter;
-use Troupe\TestlabApi\TestCases\Domain\Entity\Folder;
-use Troupe\TestlabApi\TestCases\Domain\Entity\TestCase;
+use Troupe\TestlabApi\TestCases\Domain\Dto\GetFolderContentDto;
+use Troupe\TestlabApi\TestCases\Domain\Dto\GetProjectDto;
 use Troupe\TestlabApi\TestCases\Domain\Repository\FolderRepositoryInterface;
-use Troupe\TestlabApi\TestCases\Domain\Repository\TestCaseRepositoryInterface;
+use Troupe\TestlabApi\TestCases\Domain\Repository\ProjectRepositoryInterface;
 
-class GetFolderContent
+class GetProjectContentAction
 {
     public function __construct(private readonly ContainerInterface $container)
     {
     }
 
     /**
-     * @api {get} /projects/{id}/folders?folder_id           Busca o conteúdo da raiz ou de uma pasta do projeto
+     * @api {get} /folders/{id}/content           Busca as pastas da raiz do projeto
      *
      * @apiExample Exemplo:
-     *      http://localhost:8080/projects/1/folders?folder_id=1
+     *      http://localhost:8080/folders/1/content
      *
      * @apiName BuscaConteudoDoProjeto
      * @apiGroup CasosDeTestes
      * @apiVersion v1.0.0
      *
-     * @apiHeader {String}              Content-Type Tipo de conteúdo enviado: `application/json`.
+     * @apiHeader {String}                      Content-Type Tipo de conteúdo enviado: `application/json`.
      *
-     * @apiParam {String} id                    ID do projeto
-     * @apiQuery {Int|null} folder_id           ID da pasta ou nulo, caso seja a raiz do projeto
+     * @apiParam {Int} id                       ID do projeto
      *
      * @apiSuccess {Object[]} folders           Array com as pastas do projeto
      * @apiSuccess {Object[]} test_cases        Array com os casos de testes contidos nessa pasta
@@ -84,22 +81,19 @@ class GetFolderContent
      */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $getFolderContentDto = GetFolderContentDto::fromArray(
-            array_merge($args, $request->getQueryParams())
-        );
+        $getProjectDto = GetProjectDto::fromArray($args);
+
+        /** @var ProjectRepositoryInterface $projectRepository */
+        $projectRepository = $this->container->get(ProjectRepositoryInterface::class);
+        $project = $projectRepository->getById($getProjectDto->id);
 
         /** @var FolderRepositoryInterface $folderRepository */
         $folderRepository = $this->container->get(FolderRepositoryInterface::class);
 
-        $folder = null;
-        if ($getFolderContentDto->folderId) {
-            $folder = $folderRepository->getById($getFolderContentDto->folderId);
-        }
-
-        $folderContent = $folderRepository->getFolderContent($getFolderContentDto->projectId, $folder);
+        $projectContent = $folderRepository->getProjectContent($project);
 
         $body = $response->getBody();
-        $body->write((string) json_encode($folderContent->jsonSerialize(), JSON_THROW_ON_ERROR));
+        $body->write((string) json_encode($projectContent->jsonSerialize(), JSON_THROW_ON_ERROR));
 
         return $response
             ->withStatus(StatusCode::HTTP_OK)

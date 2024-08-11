@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Troupe\TestlabApi\TestCases\Application\Rest;
+namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
 use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
 class GetFolderContentDto
 {
     private function __construct(
-        public readonly int $projectId,
-        public readonly ?int $folderId,
+        public readonly int $folderId,
     ) {
     }
 
@@ -19,12 +18,10 @@ class GetFolderContentDto
         $validator = ParamsValidator::fromArray($params);
 
         $validator
-            ->validateInteger(['id'])
-            ->validateInteger(['folder_id'], false);
+            ->validateInteger(['id']);
 
         return new self(
-            projectId: (int) $params['id'],
-            folderId: $params['folder_id'] ? (int) $params['folder_id'] : null,
+            folderId: (int) $params['id']
         );
     }
 }

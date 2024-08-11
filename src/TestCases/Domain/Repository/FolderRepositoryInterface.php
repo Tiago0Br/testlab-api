@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Troupe\TestlabApi\TestCases\Domain\Repository;
 
-use Troupe\TestlabApi\TestCases\Domain\Dto\FolderContentDto;
+use Troupe\TestlabApi\TestCases\Domain\Dto\ContentDto;
 use Troupe\TestlabApi\TestCases\Domain\Entity\Folder;
 use Troupe\TestlabApi\TestCases\Domain\Entity\Project;
 
@@ -16,7 +16,9 @@ interface FolderRepositoryInterface
 
     public function getByIdAndProject(int $id, Project $project): Folder;
 
-    public function getFolderContent(int $projectId, ?Folder $folder): FolderContentDto;
+    public function getProjectContent(Project $project): ContentDto;
+
+    public function getFolderContent(Folder $folder): ContentDto;
 
     public function remove(Folder $folder): void;
 }

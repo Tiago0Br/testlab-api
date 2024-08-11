@@ -9,7 +9,7 @@ use Troupe\TestlabApi\TestCases\Application\Presenter\TestCasePresenter;
 use Troupe\TestlabApi\TestCases\Domain\Entity\Folder;
 use Troupe\TestlabApi\TestCases\Domain\Entity\TestCase;
 
-class FolderContentDto
+class ContentDto
 {
     private function __construct(
         public readonly ?Folder $parentFolder,

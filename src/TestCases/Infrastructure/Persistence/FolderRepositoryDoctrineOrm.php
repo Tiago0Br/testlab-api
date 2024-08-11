@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Troupe\TestlabApi\TestCases\Infrastructure\Persistence;
 
 use Doctrine\ORM\EntityManager;
-use Troupe\TestlabApi\TestCases\Domain\Dto\FolderContentDto;
+use Troupe\TestlabApi\TestCases\Domain\Dto\ContentDto;
 use Troupe\TestlabApi\TestCases\Domain\Entity\Folder;
 use Troupe\TestlabApi\TestCases\Domain\Entity\Project;
 use Troupe\TestlabApi\TestCases\Domain\Entity\TestCase;
@@ -55,11 +55,29 @@ class FolderRepositoryDoctrineOrm implements FolderRepositoryInterface
         $this->entityManager->flush();
     }
 
-    public function getFolderContent(int $projectId, ?Folder $folder): FolderContentDto
+    public function getProjectContent(Project $project): ContentDto
     {
         $content = [];
 
-        if ($folder && $folder->getParentFolderId()) {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb
+            ->select('folder')
+            ->from(Folder::class, 'folder')
+            ->where("folder.project = :PROJECT")
+            ->andWhere("folder.parentFolder IS NULL")
+            ->setParameter('PROJECT', $project);
+
+        $content['folders'] = (array) $qb->getQuery()->getResult();
+        $content['test_cases'] = [];
+
+        return ContentDto::populate($content);
+    }
+
+    public function getFolderContent(Folder $folder): ContentDto
+    {
+        $content = [];
+
+        if ($folder->getParentFolderId()) {
             $content['parent_folder'] = $this->entityManager->find(Folder::class, $folder->getParentFolderId());
         }
 
@@ -67,37 +85,20 @@ class FolderRepositoryDoctrineOrm implements FolderRepositoryInterface
         $qb
             ->select('folder')
             ->from(Folder::class, 'folder')
-            ->innerJoin('folder.project', 'project')
-            ->where('project.id = :PROJECT_ID')
-            ->setParameter('PROJECT_ID', $projectId);
-
-        if ($folder) {
-            $qb
-                ->andWhere("folder.parentFolder = :FOLDER")
-                ->setParameter('FOLDER', $folder);
-        } else {
-            $qb
-                ->andWhere("folder.parentFolder IS null");
-        }
+            ->where("folder.parentFolder = :FOLDER")
+            ->setParameter('FOLDER', $folder);
 
         $content['folders'] = (array) $qb->getQuery()->getResult();
 
         $qb = $this->entityManager->createQueryBuilder();
         $qb
             ->select('testcase')
-            ->from(TestCase::class, 'testcase');
-
-        if ($folder) {
-            $qb
-                ->andWhere("testcase.testSuite = :TEST_SUITE")
-                ->setParameter('TEST_SUITE', $folder);
-        } else {
-            $qb
-                ->andWhere("testcase.testSuite IS null");
-        }
+            ->from(TestCase::class, 'testcase')
+            ->where("testcase.testSuite = :TEST_SUITE")
+            ->setParameter('TEST_SUITE', $folder);
 
         $content['test_cases'] = (array) $qb->getQuery()->getResult();
 
-        return FolderContentDto::populate($content);
+        return ContentDto::populate($content);
     }
 }

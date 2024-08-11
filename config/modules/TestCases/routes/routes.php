@@ -12,7 +12,8 @@ use Troupe\TestlabApi\TestCases\Application\Rest\DeleteFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteProjectAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteTestCaseAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectAction;
-use Troupe\TestlabApi\TestCases\Application\Rest\GetFolderContent;
+use Troupe\TestlabApi\TestCases\Application\Rest\GetFolderContentAction;
+use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectContentAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetTestCaseAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateProjectAction;
@@ -26,7 +27,7 @@ $app->group('/projects', function (App $app) use ($container) {
     $app->put('/{id}', new UpdateProjectAction($container));
     $app->get('/{id}', new GetProjectAction($container));
     $app->delete('/{id}', new DeleteProjectAction($container));
-    $app->get('/{id}/folders', new GetFolderContent($container));
+    $app->get('/{id}/content', new GetProjectContentAction($container));
 })
     ->add(new CheckToken($container));
 
@@ -34,6 +35,7 @@ $app->group('/folders', function (App $app) use ($container) {
     $app->post('/new', new CreateFolderAction($container));
     $app->put('/{id}', new UpdateFolderAction($container));
     $app->delete('/{id}', new DeleteFolderAction($container));
+    $app->get('/{id}/content', new GetFolderContentAction($container));
 })
     ->add(new CheckToken($container));
 
