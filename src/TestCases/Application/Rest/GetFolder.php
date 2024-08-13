@@ -11,22 +11,21 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\StatusCode;
+use Troupe\TestlabApi\TestCases\Application\Presenter\FolderPresenter;
 use Troupe\TestlabApi\TestCases\Domain\Dto\GetFolderDto;
-use Troupe\TestlabApi\TestCases\Domain\Dto\GetProjectDto;
 use Troupe\TestlabApi\TestCases\Domain\Repository\FolderRepositoryInterface;
-use Troupe\TestlabApi\TestCases\Domain\Repository\ProjectRepositoryInterface;
 
-class GetProjectContentAction
+class GetFolder
 {
     public function __construct(private readonly ContainerInterface $container)
     {
     }
 
     /**
-     * @api {get} /projects/{id}/content           Busca as pastas da raiz do projeto
+     * @api {get} /folders/{id}                Busca uma pasta pelo seu ID
      *
      * @apiExample Exemplo:
-     *      http://localhost:8080/projects/1/content
+     *      http://localhost:8080/folders/1
      *
      * @apiName BuscaConteudoDoProjeto
      * @apiGroup CasosDeTestes
@@ -34,16 +33,13 @@ class GetProjectContentAction
      *
      * @apiHeader {String}                      Content-Type Tipo de conteúdo enviado: `application/json`.
      *
-     * @apiParam {Int} id                       ID do projeto
+     * @apiQuery {Int} id                       ID da pasta
      *
-     * @apiSuccess {Object|null} parent_folder  Objeto contendo os dados da pasta "pai" ou nulo, caso a pasta esteja na raiz do projeto
-     * @apiSuccess {Object[]} folders           Array com as pastas do projeto
-     * @apiSuccess {Object[]} test_cases        Array com os casos de testes contidos nessa pasta
+     * @apiSuccess {Object} data                Objeto contendo os dados da pasta
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *      {
-     *          "parent_folder": null,
      *          "folders": [
      *              {
      *                  "id": 1,
@@ -72,30 +68,26 @@ class GetProjectContentAction
      *     HTTP/1.1 404 Not Found
      *     {
      *       "type": "NotFound",
-     *       "message": "Projeto não encontrado"
+     *       "message": "Pasta não encontrada"
      *     }
      */
 
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws JsonException
+     * @throws ContainerExceptionInterface
      */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $getProjectDto = GetProjectDto::fromArray($args);
-
-        /** @var ProjectRepositoryInterface $projectRepository */
-        $projectRepository = $this->container->get(ProjectRepositoryInterface::class);
-        $project = $projectRepository->getById($getProjectDto->id);
+        $getFolderDto = GetFolderDto::fromArray($args);
 
         /** @var FolderRepositoryInterface $folderRepository */
         $folderRepository = $this->container->get(FolderRepositoryInterface::class);
-
-        $projectContent = $folderRepository->getProjectContent($project);
+        $folder = $folderRepository->getById($getFolderDto->folderId);
 
         $body = $response->getBody();
-        $body->write((string) json_encode($projectContent->jsonSerialize(), JSON_THROW_ON_ERROR));
+        $body->write((string) json_encode(
+            FolderPresenter::format($folder->jsonSerialize()), JSON_THROW_ON_ERROR)
+        );
 
         return $response
             ->withStatus(StatusCode::HTTP_OK)

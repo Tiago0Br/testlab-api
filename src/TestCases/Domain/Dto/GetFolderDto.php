@@ -6,7 +6,7 @@ namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
 use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
-class GetFolderContentDto
+class GetFolderDto
 {
     private function __construct(
         public readonly int $folderId,

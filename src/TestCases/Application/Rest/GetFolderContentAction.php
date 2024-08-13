@@ -11,7 +11,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Http\StatusCode;
-use Troupe\TestlabApi\TestCases\Domain\Dto\GetFolderContentDto;
+use Troupe\TestlabApi\TestCases\Domain\Dto\GetFolderDto;
 use Troupe\TestlabApi\TestCases\Domain\Repository\FolderRepositoryInterface;
 
 class GetFolderContentAction
@@ -21,10 +21,10 @@ class GetFolderContentAction
     }
 
     /**
-     * @api {get} /projects/{id}/folders?folder_id           Busca o conteúdo de dentro de uma pasta
+     * @api {get} /folders/{id}/content           Busca o conteúdo de dentro de uma pasta
      *
      * @apiExample Exemplo:
-     *      http://localhost:8080/projects/1/folders?folder_id=1
+     *      http://localhost:8080/folders/1/content
      *
      * @apiName BuscaConteudoDoProjeto
      * @apiGroup CasosDeTestes
@@ -32,14 +32,16 @@ class GetFolderContentAction
      *
      * @apiHeader {String}                      Content-Type Tipo de conteúdo enviado: `application/json`.
      *
-     * @apiQuery {Int} folder_id                ID da pasta
+     * @apiParam {Int} id                       ID da pasta
      *
+     * @apiSuccess {Object|null} parent_folder  Objeto contendo os dados da pasta "pai" ou nulo, caso a pasta esteja na raiz do projeto
      * @apiSuccess {Object[]} folders           Array com as pastas do projeto
      * @apiSuccess {Object[]} test_cases        Array com os casos de testes contidos nessa pasta
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *      {
+     *          "parent_folder": null,
      *          "folders": [
      *              {
      *                  "id": 1,
@@ -79,7 +81,7 @@ class GetFolderContentAction
      */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $getFolderContentDto = GetFolderContentDto::fromArray($args);
+        $getFolderContentDto = GetFolderDto::fromArray($args);
 
         /** @var FolderRepositoryInterface $folderRepository */
         $folderRepository = $this->container->get(FolderRepositoryInterface::class);

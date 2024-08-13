@@ -11,6 +11,7 @@ use Troupe\TestlabApi\TestCases\Application\Rest\CreateTestCaseAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteProjectAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\DeleteTestCaseAction;
+use Troupe\TestlabApi\TestCases\Application\Rest\GetFolder;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetFolderContentAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectContentAction;
@@ -35,6 +36,7 @@ $app->group('/folders', function (App $app) use ($container) {
     $app->post('/new', new CreateFolderAction($container));
     $app->put('/{id}', new UpdateFolderAction($container));
     $app->delete('/{id}', new DeleteFolderAction($container));
+    $app->get('/{id}', new GetFolder($container));
     $app->get('/{id}/content', new GetFolderContentAction($container));
 })
     ->add(new CheckToken($container));
