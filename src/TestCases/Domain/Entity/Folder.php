@@ -28,7 +28,7 @@ class Folder
     private Project $project;
 
     #[ORM\ManyToOne(targetEntity: Folder::class)]
-    #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'parent_folder_id', referencedColumnName: 'id')]
     private ?Folder $parentFolder;
 
     #[ORM\Column(name: 'is_test_suite', type: Types::INTEGER)]
@@ -55,7 +55,7 @@ class Folder
             'id' => $this->id,
             'title' => $this->title,
             'project' => $this->project->jsonSerialize(),
-            'folder' => $this->parentFolder?->jsonSerialize(),
+            'parent_folder' => $this->parentFolder?->jsonSerialize(),
             'is_test_suite' => $this->isTestSuite,
         ];
     }

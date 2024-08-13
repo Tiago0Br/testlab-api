@@ -14,9 +14,9 @@ class FolderPresenter
             'id' => $folder['id'],
             'title' => $folder['title'],
             'project' => $folder['project'],
-            'folder' => $folder['folder'] ? [
-                'id' => $folder['folder']['id'],
-                'title' => $folder['folder']['title'],
+            'parent_folder' => $folder['parent_folder'] ? [
+                'id' => $folder['parent_folder']['id'],
+                'title' => $folder['parent_folder']['title'],
             ] : null,
             'is_test_suite' => $folder['is_test_suite']
         ];
@@ -25,7 +25,7 @@ class FolderPresenter
     public static function onlyFolderData(array $folder): array
     {
         $content = self::format($folder);
-        unset($content['project'], $content['folder']);
+        unset($content['project'], $content['parent_folder']);
 
         return $content;
     }
