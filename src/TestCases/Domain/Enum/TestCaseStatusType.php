@@ -16,11 +16,22 @@ enum TestCaseStatusType: string
 
     public static function toArray(): array
     {
-        return array_column(TestCaseStatusType::cases(), 'value');
+        return array_column(self::cases(), 'value');
+    }
+
+    public static function listStatusAndLabel(): array
+    {
+        return array_map(static function (string $value) {
+            return [
+                'value' => $value,
+                'label' => mb_convert_case($value, MB_CASE_TITLE),
+                'disabled' => $value === self::NotExecuted->value,
+            ];
+        }, self::toArray());
     }
 
     public static function statusExists(string $status): bool
     {
-        return in_array($status, TestCaseStatusType::toArray());
+        return in_array($status, self::toArray());
     }
 }

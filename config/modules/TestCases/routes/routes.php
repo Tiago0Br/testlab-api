@@ -16,6 +16,7 @@ use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetFolderContentAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetProjectContentAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\GetTestCaseAction;
+use Troupe\TestlabApi\TestCases\Application\Rest\ListTestCaseStatusAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateFolderAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateProjectAction;
 use Troupe\TestlabApi\TestCases\Application\Rest\UpdateTestCaseAction;
@@ -43,6 +44,7 @@ $app->group('/folders', function (App $app) use ($container) {
 
 $app->group('/test_cases', function (App $app) use ($container) {
     $app->post('/new', new CreateTestCaseAction($container));
+    $app->get('/status', new ListTestCaseStatusAction());
     $app->get('/{id}', new GetTestCaseAction($container));
     $app->put('/{id}', new UpdateTestCaseAction($container));
     $app->delete('/{id}', new DeleteTestCaseAction($container));

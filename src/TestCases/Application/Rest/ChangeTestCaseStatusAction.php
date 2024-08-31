@@ -22,7 +22,7 @@ class ChangeTestCaseStatusAction
     }
 
     /**
-     * @api {post} /test_cases/{id}/status         Altera o status de um caso de teste
+     * @api {patch} /test_cases/{id}/status         Altera o status de um caso de teste
      *
      * @apiExample Exemplo:
      *      http://localhost:8080/test_cases/123/status

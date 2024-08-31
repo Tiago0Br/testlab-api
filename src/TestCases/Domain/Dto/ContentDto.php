@@ -40,7 +40,7 @@ class ContentDto
                 $this->folders
             ),
             'test_cases' => array_map(fn(TestCase $testCase) =>
-                TestCasePresenter::onlyTestCaseData($testCase->jsonSerialize()),
+                TestCasePresenter::formatWithoutHistory($testCase->jsonSerialize()),
                 $this->testCases
             ),
         ];

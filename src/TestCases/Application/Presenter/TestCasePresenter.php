@@ -13,15 +13,15 @@ class TestCasePresenter
             'title' => $testCase['title'],
             'summary' => $testCase['summary'],
             'preconditions' => $testCase['preconditions'],
-            'status' => $testCase['status'],
+            'status' => $testCase['status'][0],
+            'history' => $testCase['status'],
         ];
     }
 
-    public static function onlyTestCaseData(array $testCase): array
+    public static function formatWithoutHistory(array $testCase): array
     {
         $content = self::format($testCase);
-        $content['status'] = $testCase['status'][0];
-        unset($content['test_suite']);
+        unset($content['history']);
 
         return $content;
     }
