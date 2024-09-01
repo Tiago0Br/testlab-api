@@ -50,4 +50,22 @@ class TestCaseRepositoryDoctrineOrm implements TestCaseRepositoryInterface
 
         return (array) $qb->getQuery()->getResult();
     }
+
+    public function getNextTestCase(TestCase $currentTestCase): ?TestCase
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb
+            ->select('testCase')
+            ->from(TestCase::class, 'testCase')
+            ->where('testCase.id > :CURRENT_TEST_CASE_ID')
+            ->andWhere('testCase.testSuite = :TEST_SUITE')
+            ->setParameter('CURRENT_TEST_CASE_ID', $currentTestCase->getId())
+            ->setParameter('TEST_SUITE', $currentTestCase->getTestSuite())
+            ->setMaxResults(1);
+
+        $result = (array) $qb->getQuery()->getResult();
+
+        return ! empty($result) ? $result[0] : null;
+    }
 }

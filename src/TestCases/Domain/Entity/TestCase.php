@@ -48,6 +48,16 @@ class TestCase
         $this->status = new ArrayCollection();
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getTestSuite(): Folder
+    {
+        return $this->testSuite;
+    }
+
     public function jsonSerialize(): array
     {
         $status = array_reverse(array_map(
