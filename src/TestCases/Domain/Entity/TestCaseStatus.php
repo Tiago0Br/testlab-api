@@ -34,7 +34,7 @@ class TestCaseStatus
     {
         return [
             'id' => $this->id,
-            'status' => $this->status,
+            'description' => $this->status,
             'note' => $this->note,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
         ];
