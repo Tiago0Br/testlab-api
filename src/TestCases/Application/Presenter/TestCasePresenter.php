@@ -13,15 +13,16 @@ class TestCasePresenter
             'title' => $testCase['title'],
             'summary' => $testCase['summary'],
             'preconditions' => $testCase['preconditions'],
+            'test_suite' => FolderPresenter::onlyFolderData($testCase['test_suite']),
             'status' => $testCase['status'][0],
             'history' => $testCase['status'],
         ];
     }
 
-    public static function formatWithoutHistory(array $testCase): array
+    public static function onlyTestCaseData(array $testCase): array
     {
         $content = self::format($testCase);
-        unset($content['history']);
+        unset($content['history'], $content['test_suite']);
 
         return $content;
     }

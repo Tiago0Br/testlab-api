@@ -18,7 +18,6 @@ class FolderPresenter
                 'id' => $folder['parent_folder']['id'],
                 'title' => $folder['parent_folder']['title'],
             ] : null,
-            'is_test_suite' => $folder['is_test_suite']
         ];
     }
 

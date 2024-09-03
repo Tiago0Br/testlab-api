@@ -13,6 +13,8 @@ interface TestCaseRepositoryInterface
 
     public function getById(int $id): TestCase;
 
+    public function getPreviousTestCase(TestCase $currentTestCase): ?TestCase;
+
     public function getNextTestCase(TestCase $currentTestCase): ?TestCase;
 
     /** @return TestCase[] */

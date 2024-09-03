@@ -32,16 +32,17 @@ class GetTestCaseAction
 
         /** @var TestCaseRepositoryInterface $testCaseRepository */
         $testCaseRepository = $this->container->get(TestCaseRepositoryInterface::class);
+
         $testCase = $testCaseRepository->getById($getTestCaseDto->id);
+        $previousTestCase = $testCaseRepository->getPreviousTestCase($testCase);
         $nextTestCase = $testCaseRepository->getNextTestCase($testCase);
 
         $body = $response->getBody();
         $responseBody = array_merge(
             TestCasePresenter::format($testCase->jsonSerialize()),
             [
-                'next_test_case' => $nextTestCase
-                    ? TestCasePresenter::formatWithoutHistory($nextTestCase->jsonSerialize())
-                    : null,
+                'previous_test_case_id' => $previousTestCase?->getId(),
+                'next_test_case_id' => $nextTestCase?->getId(),
             ],
         );
         $body->write((string) json_encode($responseBody, JSON_THROW_ON_ERROR));
