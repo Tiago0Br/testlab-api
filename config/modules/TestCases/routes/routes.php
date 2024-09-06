@@ -49,6 +49,6 @@ $app->group('/test_cases', function (App $app) use ($container) {
     $app->put('/{id}', new UpdateTestCaseAction($container));
     $app->delete('/{id}', new DeleteTestCaseAction($container));
 
-    $app->patch('/{id}/status', new ChangeTestCaseStatusAction($container));
+    $app->put('/{id}/status', new ChangeTestCaseStatusAction($container));
 })
     ->add(new CheckToken($container));
