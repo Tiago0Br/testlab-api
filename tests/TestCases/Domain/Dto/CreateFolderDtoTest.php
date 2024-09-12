@@ -19,14 +19,12 @@ class CreateFolderDtoTest extends TestCase
         $params = [
             'title' => 'Título da pasta',
             'project_id' => rand(1, 100),
-            'is_test_suite' => 1,
             'folder_id' => rand(1, 100),
         ];
         $folderDto = CreateFolderDto::fromArray($params);
 
         self::assertSame($params['title'], $folderDto->title);
         self::assertSame($params['project_id'], $folderDto->projectId);
-        self::assertSame($params['is_test_suite'], $folderDto->isTestSuit);
         self::assertSame($params['folder_id'], $folderDto->folderId);
     }
 
@@ -45,7 +43,6 @@ class CreateFolderDtoTest extends TestCase
         $params = [
             'title' => 'Título da pasta',
             'project_id' => rand(1, 100),
-            'is_test_suite' => 1,
             'folder_id' => rand(1, 100),
         ];
 
@@ -69,10 +66,6 @@ class CreateFolderDtoTest extends TestCase
             'fromArrayShouldFailWithProjectIdHasInvalidType' => [
                 'data' => ArrayHelpers::changeValue($params, 'project_id', 'a'),
                 'exceptionMessage' => "O campo 'project_id' deve ser um número"
-            ],
-            'fromArrayShouldFailWithIsTestSuiteHasInvalidType' => [
-                'data' => ArrayHelpers::changeValue($params, 'is_test_suite', 'a'),
-                'exceptionMessage' => "O campo 'is_test_suite' deve ser um número"
             ],
             'fromArrayShouldFailWithIsFolderIdHasInvalidType' => [
                 'data' => ArrayHelpers::changeValue($params, 'folder_id', 'a'),

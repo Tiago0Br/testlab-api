@@ -13,7 +13,6 @@ class UpdateFolderDto
         public readonly int $id,
         public readonly string $title,
         public readonly int $projectId,
-        public readonly ?int $isTestSuit,
         public readonly ?int $folderId
     ) {
     }
@@ -26,7 +25,6 @@ class UpdateFolderDto
             id: (int) $params['id'],
             title: $params['title'],
             projectId: (int) $params['project_id'],
-            isTestSuit: $params['is_test_suite'] ? (int) $params['is_test_suite'] : null,
             folderId: $params['folder_id'] ? (int) $params['folder_id'] : null
         );
     }
@@ -39,7 +37,7 @@ class UpdateFolderDto
             ->validateString(['title'])
             ->validateInteger(['id', 'project_id'])
             ->validateInteger(
-                fields: ['folder_id', 'is_test_suite'],
+                fields: ['folder_id'],
                 required: false
             );
 

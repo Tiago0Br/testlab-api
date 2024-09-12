@@ -31,9 +31,6 @@ class Folder
     #[ORM\JoinColumn(name: 'parent_folder_id', referencedColumnName: 'id')]
     private ?Folder $parentFolder;
 
-    #[ORM\Column(name: 'is_test_suite', type: Types::INTEGER)]
-    private ?int $isTestSuite;
-
     public function getId(): int
     {
         return $this->id;
@@ -56,7 +53,6 @@ class Folder
             'title' => $this->title,
             'project' => $this->project->jsonSerialize(),
             'parent_folder' => $this->parentFolder?->jsonSerialize(),
-            'is_test_suite' => $this->isTestSuite,
         ];
     }
 
@@ -67,7 +63,6 @@ class Folder
     ): self {
         $instance = new self();
         $instance->title = $createFolderDto->title;
-        $instance->isTestSuite = $createFolderDto->isTestSuit ?? 0;
         $instance->project = $project;
         $instance->parentFolder = $parentFolder;
 
@@ -81,7 +76,6 @@ class Folder
     ): void {
         $this->title = $updateFolderDto->title;
         $this->project = $project;
-        $this->isTestSuite = $updateFolderDto->isTestSuit ?? 0;
         $this->parentFolder = $parentFolder;
     }
 }
