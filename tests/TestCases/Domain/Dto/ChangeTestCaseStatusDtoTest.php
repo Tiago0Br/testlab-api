@@ -19,12 +19,14 @@ class ChangeTestCaseStatusDtoTest extends TestCase
     {
         $params = [
             'id' => rand(1, 100),
+            'user_id' => rand(1, 100),
             'status' => TestCaseStatusType::NotExecuted->value,
             'note' => 'Nota',
         ];
         $changeTestCaseStatusDto = ChangeTestCaseStatusDto::fromArray($params);
 
         self::assertSame($params['id'], $changeTestCaseStatusDto->testCaseId);
+        self::assertSame($params['user_id'], $changeTestCaseStatusDto->userId);
         self::assertSame($params['status'], $changeTestCaseStatusDto->status);
         self::assertSame($params['note'], $changeTestCaseStatusDto->note);
     }
@@ -43,6 +45,7 @@ class ChangeTestCaseStatusDtoTest extends TestCase
     {
         $params = [
             'id' => rand(1, 100),
+            'user_id' => rand(1, 100),
             'status' => TestCaseStatusType::NotExecuted->value,
             'note' => 'Nota',
         ];

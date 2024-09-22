@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Troupe\TestlabApi\Core\Domain\Entity\User;
 use Troupe\TestlabApi\TestCases\Domain\Dto\ChangeTestCaseStatusDto;
 use Troupe\TestlabApi\TestCases\Domain\Dto\CreateTestCaseDto;
 use Troupe\TestlabApi\TestCases\Domain\Dto\UpdateTestCaseDto;
@@ -77,7 +78,8 @@ class TestCase
 
     public static function create(
         CreateTestCaseDto $createTestCaseDto,
-        Folder $testSuite
+        Folder $testSuite,
+        User $user
     ): self {
         $instance = new self();
         $instance->title = $createTestCaseDto->title;
@@ -87,6 +89,7 @@ class TestCase
         $instance->status->add(
             TestCaseStatus::create(
                 testCase: $instance,
+                user: $user,
                 status: TestCaseStatusType::NotExecuted->value
             )
         );
@@ -101,11 +104,12 @@ class TestCase
         $this->preconditions = $updateTestCaseDto->preconditions;
     }
 
-    public function addStatus(ChangeTestCaseStatusDto $statusDto): void
+    public function addStatus(ChangeTestCaseStatusDto $statusDto, User $user): void
     {
         $this->status->add(
             TestCaseStatus::create(
                 testCase: $this,
+                user: $user,
                 status: $statusDto->status,
                 note: $statusDto->note
             )

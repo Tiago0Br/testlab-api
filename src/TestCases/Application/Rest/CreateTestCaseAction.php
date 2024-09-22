@@ -28,7 +28,10 @@ class CreateTestCaseAction
      */
     public function __invoke(Request $request, Response $response): Response
     {
-        $createTestCaseDto = CreateTestCaseDto::fromArray($request->getParsedBody());
+        $createTestCaseDto = CreateTestCaseDto::fromArray(array_merge(
+            (array) $request->getParsedBody(),
+            $request->getQueryParams()
+        ));
 
         /** @var CreateTestCase $createTestCase */
         $createTestCase = $this->container->get(CreateTestCase::class);

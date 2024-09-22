@@ -112,6 +112,7 @@ class ChangeTestCaseStatusAction
     {
         $changeTestCaseStatusDto = ChangeTestCaseStatusDto::fromArray(array_merge(
             $args,
+            $request->getQueryParams(),
             (array) $request->getParsedBody()
         ));
 

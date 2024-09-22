@@ -6,13 +6,14 @@ namespace Troupe\TestlabApi\TestCases\Domain\Dto;
 
 use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 
-class CreateTestCaseDto
+readonly class CreateTestCaseDto
 {
     private function __construct(
-        public readonly string $title,
-        public readonly int $testSuiteId,
-        public readonly string $summary,
-        public readonly ?string $preconditions
+        public string $title,
+        public int $testSuiteId,
+        public int $userId,
+        public string $summary,
+        public ?string $preconditions
     ) {
     }
 
@@ -23,6 +24,7 @@ class CreateTestCaseDto
         return new self(
             title: $params['title'],
             testSuiteId: (int) $params['test_suite_id'],
+            userId: (int) $params['user_id'],
             summary: $params['summary'],
             preconditions: $params['preconditions'] ?? null
         );

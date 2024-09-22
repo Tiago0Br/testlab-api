@@ -8,12 +8,13 @@ use Assert\Assert;
 use Troupe\TestlabApi\Core\Domain\Helpers\ParamsValidator;
 use Troupe\TestlabApi\TestCases\Domain\Enum\TestCaseStatusType;
 
-class ChangeTestCaseStatusDto
+readonly class ChangeTestCaseStatusDto
 {
     private function __construct(
-        public readonly int $testCaseId,
-        public readonly string $status,
-        public readonly ?string $note
+        public int $testCaseId,
+        public int $userId,
+        public string $status,
+        public ?string $note
     ) {
     }
 
@@ -23,6 +24,7 @@ class ChangeTestCaseStatusDto
 
         return new self(
             testCaseId: (int) $params['id'],
+            userId: (int) $params['user_id'],
             status: $params['status'],
             note: $params['note'] ?? null
         );

@@ -31,6 +31,11 @@ class User
         return $this->id;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     public function validatePassword(string $password): bool
     {
         return password_verify($password, $this->password);
