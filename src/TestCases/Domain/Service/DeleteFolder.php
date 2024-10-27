@@ -9,27 +9,25 @@ use Troupe\TestlabApi\TestCases\Domain\Exception\FolderHasContent;
 use Troupe\TestlabApi\TestCases\Domain\Repository\FolderRepositoryInterface;
 use Troupe\TestlabApi\TestCases\Domain\Repository\ProjectRepositoryInterface;
 
-class DeleteFolder
+readonly class DeleteFolder
 {
     public function __construct(
-        private readonly FolderRepositoryInterface $folderRepository,
-        private readonly ProjectRepositoryInterface $projectRepository
+        private FolderRepositoryInterface $folderRepository
     ) {
     }
 
     public function remove(DeleteFolderDto $deleteFolderDto): array
     {
-        $project = $this->projectRepository->getById($deleteFolderDto->projectId);
-        $folder = $this->folderRepository->getByIdAndProject($deleteFolderDto->id, $project);
+        $folder = $this->folderRepository->getById($deleteFolderDto->id);
 
-        $folderContent = $this->folderRepository->getFolderContent($folder->getProjectId(), $folder);
-        if (empty($folderContent->folders && empty($folderContent->testCases))) {
+        $folderContent = $this->folderRepository->getFolderContent($folder);
+        if (empty($folderContent->folders) && empty($folderContent->testCases)) {
             $removedFolder = $folder->jsonSerialize();
             $this->folderRepository->remove($folder);
 
             return $removedFolder;
         }
 
-        throw FolderHasContent::fromId($deleteFolderDto->id);
+        throw FolderHasContent::throw();
     }
 }

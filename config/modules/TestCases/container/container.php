@@ -50,8 +50,7 @@ $container[UpdateFolder::class] = static fn (ContainerInterface $container) =>
 
 $container[DeleteFolder::class] = static fn (ContainerInterface $container) =>
     new DeleteFolder(
-        $container->get(FolderRepositoryInterface::class),
-        $container->get(ProjectRepositoryInterface::class)
+        $container->get(FolderRepositoryInterface::class)
     );
 
 $container[CreateTestCase::class] = static fn (ContainerInterface $container) =>

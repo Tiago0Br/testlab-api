@@ -8,8 +8,8 @@ use DomainException;
 
 class FolderHasContent extends DomainException
 {
-    public static function fromId(int $id): self
+    public static function throw(): self
     {
-        return new self(sprintf("A pasta de ID '%s' não pode ser excluída pois possui conteúdo", $id));
+        return new self('A pasta não pode ser excluída pois possui conteúdo');
     }
 }
